@@ -43,3 +43,6 @@
           context: .
           push: true
           tags: ${{ secrets.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
+          
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
