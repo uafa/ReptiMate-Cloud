@@ -1,6 +1,12 @@
-﻿namespace ReptiMate_Cloud.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
+using Repository;
 
-public class MeasurementsController
+namespace ReptiMate_Cloud.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class MeasurementsController : ControllerBase
 {
     
 }

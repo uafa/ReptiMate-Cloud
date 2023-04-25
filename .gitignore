@@ -4,3 +4,4 @@ obj/
 .idea
 riderModule.iml
 /_ReSharper.Caches/
+Repository/DatabaseCredentials.cs

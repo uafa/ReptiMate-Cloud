@@ -1,3 +1,4 @@
+using System.Data.SqlClient;
 using Repository;
 using Repository.DAO;
 using WebSocket.Services;
@@ -18,7 +19,6 @@ builder.Services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
 builder.Services.AddScoped<IWebSocketClient, WebSocketClient>();
 
 builder.Services.AddDbContext<DatabaseContext>();
-
 
 var app = builder.Build();
 

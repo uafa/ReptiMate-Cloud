@@ -5,7 +5,7 @@ namespace Model;
 public class Measurements
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public double Temperature { get; set; }
     public double Humidity { get; set; }
     public double Co2 { get; set; }
