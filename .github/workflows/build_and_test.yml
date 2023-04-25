@@ -42,4 +42,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
+        tags: ${{ secrets.REGISTRY_NAME }}/${{ secrets.NAMESPACE}}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
