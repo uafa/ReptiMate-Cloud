@@ -15,7 +15,7 @@ public class DatabaseContext : DbContext
             $"Port={Environment.GetEnvironmentVariable("DB_PORT")};" +
             $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
             $"Username={Environment.GetEnvironmentVariable("DB_USER")};" +
-            $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD")}",
+            $"Password={Environment.GetEnvironmentVariable("DB_PASS")}",
             options => options.UseAdminDatabase(Environment.GetEnvironmentVariable("DB_ADMIN_DATABASE")));
     }
 
