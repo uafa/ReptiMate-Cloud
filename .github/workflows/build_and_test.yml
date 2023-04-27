@@ -32,6 +32,9 @@
       - name: Restore dependencies
         run: dotnet restore
         
+      - name: Install EF Core
+        run: dotnet tool install --global dotnet-ef
+        
       - name: Build
         run: dotnet build --configuration Release
         
