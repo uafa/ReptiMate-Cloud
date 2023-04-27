@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System.Data;
+using Model;
 using Repository.DAO;
 
 namespace ReptiMate_Cloud.Services;
@@ -16,6 +17,10 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
 
     public async Task<Measurements> getLatestMeasurement()
     {
-        return await measurementsDao.getLatestMeasurement();
+        var measure = await measurementsDao.getLatestMeasurement();
+
+        if (measure == null) throw new Exception("Not found");
+        
+        return measure;
     }
 }
