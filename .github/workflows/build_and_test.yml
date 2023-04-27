@@ -42,4 +42,4 @@
         run: dotnet test --configuration Release
       
       - name: Check migrations
-        run: dotnet ef database update --configuration Release --no-build
+        run: dotnet ef database update --project ./Repository --configuration Release --no-build
