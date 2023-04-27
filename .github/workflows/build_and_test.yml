@@ -37,3 +37,6 @@
         
       - name: Test
         run: dotnet test --configuration Release
+      
+      - name: Check migrations
+        run: dotnet ef database update --configuration Release --no-build
