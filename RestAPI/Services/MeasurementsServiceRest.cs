@@ -15,9 +15,9 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
     }
     
 
-    public async Task<Measurements> getLatestMeasurement()
+    public async Task<Measurements> GetLatestMeasurement()
     {
-        var measure = await measurementsDao.getLatestMeasurement();
+        var measure = await measurementsDao.GetLatestMeasurementAsync();
 
         if (measure == null) throw new Exception("Not found");
         

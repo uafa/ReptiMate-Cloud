@@ -12,11 +12,19 @@ public class MeasurementsDAO : IMeasurementsDAO
         _context = context;
     }
 
-    public async Task<Measurements> getLatestMeasurement()
+    public async Task<Measurements> GetLatestMeasurementAsync()
     {
-        Measurements? latestMeasurement = await _context.Measurements.OrderByDescending(m => m.Date).ThenByDescending(m=> m.Time).FirstOrDefaultAsync();
+        Measurements? latestMeasurement = await _context.Measurements.OrderByDescending(m => m.Date)
+            .ThenByDescending(m => m.Time).FirstOrDefaultAsync();
+
         if (latestMeasurement == null)
-           throw new Exception("No measurements found");
+            throw new Exception("No measurements found");
         return latestMeasurement;
+    }
+
+    public async Task CreateMeasurementsAsync(Measurements measurements)
+    {
+        await _context.Measurements.AddAsync(measurements);
+        await _context.SaveChangesAsync();
     }
 }

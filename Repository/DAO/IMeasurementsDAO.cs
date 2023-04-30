@@ -4,5 +4,7 @@ namespace Repository.DAO;
 
 public interface IMeasurementsDAO
 {
-    public Task<Measurements> getLatestMeasurement();
+    public Task<Measurements> GetLatestMeasurementAsync();
+
+    public Task CreateMeasurementsAsync(Measurements measurements);
 }

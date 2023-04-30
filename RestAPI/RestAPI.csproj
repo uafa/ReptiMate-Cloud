@@ -6,7 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>ReptiMate_Cloud</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-      <UserSecretsId>f0e1cae7-c718-4f53-b2f4-5b154c9ea0ed</UserSecretsId>
   </PropertyGroup>
 
     <ItemGroup>

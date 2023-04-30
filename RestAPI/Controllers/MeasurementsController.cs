@@ -22,7 +22,7 @@ public class MeasurementsController : ControllerBase
     {
         try
         {
-            Measurements? measurements = await measurementsServiceRest.getLatestMeasurement();
+            Measurements? measurements = await measurementsServiceRest.GetLatestMeasurement();
             Console.WriteLine(measurements.Time);
             return Ok(measurements);
         }
