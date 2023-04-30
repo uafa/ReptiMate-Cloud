@@ -43,4 +43,28 @@
       
       - name: Check migrations
         run: dotnet ef database update --project ./Repository --configuration Release --no-build
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.REGISTRY_NAME }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
+          build-args: |
+            DB_HOST=${env.DB_HOST}
+            DB_PORT=${env.DB_PORT}
+            DB_NAME=${env.DB_NAME}
+            DB_USER=${env.DB_USER}
+            DB_PASS=${env.DB_PASS}
+            DB_ADMIN=${env.DB_ADMIN}
+
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
         
