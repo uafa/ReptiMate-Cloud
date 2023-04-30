@@ -58,12 +58,12 @@
           push: true
           tags: ${{ secrets.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
           build-args: |
-            DB_HOST=${DB_HOST}
-            DB_PORT=${DB_PORT}
-            DB_NAME=${DB_NAME}
-            DB_USER=${DB_USER}
-            DB_PASS=${DB_PASS}
-            DB_ADMIN=${DB_ADMIN}
+            DB_HOST=${env.DB_HOST}
+            DB_PORT=${env.DB_PORT}
+            DB_NAME=${env.DB_NAME}
+            DB_USER=${env.DB_USER}
+            DB_PASS=${env.DB_PASS}
+            DB_ADMIN=${env.DB_ADMIN}
 
       - name: Pull Docker image
         run: docker pull ${{ secrets.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}

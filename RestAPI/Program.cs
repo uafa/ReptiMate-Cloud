@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMeasurementsServiceRest, MeasurementsServiceRest>();
 builder.Services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
 builder.Services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
-builder.Services.AddScoped<IWebSocketClient, WebSocketClient>();
+// builder.Services.AddScoped<IWebSocketClient, WebSocketClient>();
 
 builder.Services.AddDbContext<DatabaseContext>();
 
