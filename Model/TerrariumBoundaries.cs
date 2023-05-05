@@ -4,7 +4,8 @@ namespace Model;
 
 public class TerrariumBoundaries
 {
-    [Key] public Guid Id { get; set; }
+    [Key] 
+    public Guid Id { get; set; }
     public double TemperatureBoundaryMax { get; set; }
     public double TemperatureBoundaryMin { get; set; }
     public double HumidityBoundaryMax { get; set; }

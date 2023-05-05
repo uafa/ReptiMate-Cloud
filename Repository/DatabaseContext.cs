@@ -32,5 +32,6 @@ public class DatabaseContext : DbContext
     {
         modelBuilder.Entity<Measurements>().HasKey(measurement => measurement.Id);
         modelBuilder.Entity<TerrariumBoundaries>().HasKey(terrariumBoundaries => terrariumBoundaries.Id);
+        modelBuilder.Entity<TerrariumLimits>().HasKey(terrariumLimits => terrariumLimits.Id);
     }
 }
