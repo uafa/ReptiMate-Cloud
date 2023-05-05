@@ -7,7 +7,7 @@ namespace Repository;
 public class DatabaseContext : DbContext
 {
     public DbSet<Measurements> Measurements { get; set; }
-    public DbSet<TerrariumBoundaries> Boundaries { get; set; }
+    public DbSet<TerrariumBoundaries> TerrariumBoundaries { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -4,12 +4,11 @@ namespace Model;
 
 public class TerrariumBoundaries
 {
-    [Key]
-    public Guid Id { get; set; }
-    private double TemperatureBoundaryMax { get; set; }
-    private double TemperatureBoundaryMin { get; set; }
-    private double HumidityBoundaryMax { get; set; }
-    private double HumidityBoundaryMin { get; set; }
-    private double CO2BoundaryMax { get; set; }
-    private double CO2BoundaryMin { get; set; }
+    [Key] public Guid Id { get; set; }
+    public double TemperatureBoundaryMax { get; set; }
+    public double TemperatureBoundaryMin { get; set; }
+    public double HumidityBoundaryMax { get; set; }
+    public double HumidityBoundaryMin { get; set; }
+    public double CO2BoundaryMax { get; set; }
+    public double CO2BoundaryMin { get; set; }
 }

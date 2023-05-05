@@ -54,9 +54,27 @@ namespace Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<double>("CO2BoundaryMax")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("CO2BoundaryMin")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("HumidityBoundaryMax")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("HumidityBoundaryMin")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("TemperatureBoundaryMax")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("TemperatureBoundaryMin")
+                        .HasColumnType("double precision");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Boundaries");
+                    b.ToTable("TerrariumBoundaries");
                 });
 #pragma warning restore 612, 618
         }

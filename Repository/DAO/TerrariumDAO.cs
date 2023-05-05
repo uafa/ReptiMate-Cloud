@@ -25,14 +25,14 @@ public class TerrariumDAO : ITerrariumDAO
 
     public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries = await context.Boundaries.AddAsync(terrariumBoundaries);
+        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries = await context.TerrariumBoundaries.AddAsync(terrariumBoundaries);
         await context.SaveChangesAsync();
         return newTerrariumBoundaries.Entity;
     }
 
     public async Task<TerrariumBoundaries> GetTerrariumBoundariesAsync()
     {
-        TerrariumBoundaries? boundaries = await context.Boundaries.FirstOrDefaultAsync();
+        TerrariumBoundaries? boundaries = await context.TerrariumBoundaries.FirstOrDefaultAsync();
 
         if (boundaries == null)
         {
