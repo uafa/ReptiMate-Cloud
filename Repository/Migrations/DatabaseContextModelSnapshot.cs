@@ -47,6 +47,17 @@ namespace Repository.Migrations
 
                     b.ToTable("Measurements");
                 });
+
+            modelBuilder.Entity("Model.TerrariumBoundaries", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Boundaries");
+                });
 #pragma warning restore 612, 618
         }
     }

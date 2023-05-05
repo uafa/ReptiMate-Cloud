@@ -7,6 +7,7 @@ namespace Repository;
 public class DatabaseContext : DbContext
 {
     public DbSet<Measurements> Measurements { get; set; }
+    public DbSet<TerrariumBoundaries> Boundaries { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,5 +31,6 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Measurements>().HasKey(measurement => measurement.Id);
+        modelBuilder.Entity<TerrariumBoundaries>().HasKey(terrariumBoundaries => terrariumBoundaries.Id);
     }
 }
