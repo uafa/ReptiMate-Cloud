@@ -44,4 +44,37 @@ public class TerrariumController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+    
+    [HttpPost("limits")]
+    public async Task<ActionResult<TerrariumBoundaries>> CreateTerrariumBoundariesAsync([FromBody] TerrariumLimits terrariumLimits)
+    {
+        try
+        {
+            var createdTerrariumLimits =
+                await terrariumServiceRest.CreateTerrariumLimitsAsync(terrariumLimits);
+            return Ok(createdTerrariumLimits);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet("limits")]
+    public async Task<ActionResult<TerrariumLimits>> GetTerrariumLimitsAsync()
+    {
+        try
+        {
+            var terrariumLimits = await terrariumServiceRest.GetTerrariumLimitsAsync();
+            return Ok(terrariumLimits);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    
 }

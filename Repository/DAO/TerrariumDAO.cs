@@ -13,19 +13,29 @@ public class TerrariumDAO : ITerrariumDAO
         this.context = context;
     }
 
-    public Task CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+    public async Task<TerrariumLimits> CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        throw new NotImplementedException();
+        EntityEntry<TerrariumLimits> newTerrariumLimits = await context.TerrariumLimits.AddAsync(terrariumLimits);
+        await context.SaveChangesAsync();
+        return newTerrariumLimits.Entity;
     }
 
-    public Task<TerrariumLimits> GetTerrariumLimitsAsync()
+    public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
-        throw new NotImplementedException();
+        TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
+
+        if (limits == null)
+        {
+            throw new Exception("No limits found");
+        }
+
+        return limits;
     }
 
     public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries = await context.TerrariumBoundaries.AddAsync(terrariumBoundaries);
+        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries =
+            await context.TerrariumBoundaries.AddAsync(terrariumBoundaries);
         await context.SaveChangesAsync();
         return newTerrariumBoundaries.Entity;
     }
