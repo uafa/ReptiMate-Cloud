@@ -1,0 +1,38 @@
+﻿name: Deploy
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+
+    steps:
+      - name: Configure Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: sep4-cloud-386107
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t gcr.io/sep4-cloud-386107/reptimate .
+          docker push gcr.io/sep4-cloud-386107/reptimate
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials reptimate-cluster --region europe-west1
+
+      - name: Update Kubernetes deployment
+        run: |
+          kubectl set image deployment/reptimate-deploy reptimate=gcr.io/sep4-cloud-386107/reptimate:latest
