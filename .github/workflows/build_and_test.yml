@@ -29,7 +29,8 @@ jobs:
         run: dotnet tool install --global dotnet-ef
 
       - name: Check migrations
-        run: dotnet ef database update --project ./Repository --configuration Release --no-build
+        run: dotnet ef database update --configuration Release --no-build --verbosity detailed
+        working-directory: ./Repository
 
       - name: Build
         run: dotnet build --configuration Release
