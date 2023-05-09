@@ -28,11 +28,12 @@ jobs:
       - name: Install EF Core
         run: dotnet tool install --global dotnet-ef
 
-      - name: Check migrations
-        run: dotnet ef database update --project ./Repository --configuration Release --no-build
-
       - name: Build
         run: dotnet build --configuration Release
+        
+      - name: Check migrations
+        run: dotnet ef database update --project ./Repository --configuration Release --no-build  
+        
 
   test:
     needs: build
