@@ -35,6 +35,11 @@ jobs:
       - name: Install EF Core
         run: dotnet tool install --global dotnet-ef
 
+      - name: Connect to Cloud SQL
+        run: |
+          gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+          gcloud sql connect <instance-connection-name> --user=${{ secrets.DB_USER }} --quiet
+
       - name: Build
         run: dotnet build --configuration Release
         
