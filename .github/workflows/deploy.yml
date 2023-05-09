@@ -33,6 +33,6 @@ jobs:
         run: |
           gcloud container clusters get-credentials reptimate-cluster --region europe-west1
 
-      - name: Update Kubernetes deployment
+      - name: Deploy to Kubernetes cluster
         run: |
-          kubectl set image deployment/reptimate-deploy reptimate=gcr.io/sep4-cloud-386107/reptimate:latest
+          kubectl apply -f ../../k8s/deployment.yml
