@@ -22,9 +22,9 @@ public class TerrariumServiceRest : ITerrariumServiceRest
         throw new NotImplementedException();
     }
 
-    public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
+    public async Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        return await terrariumDao.CreateTerrariumBoundariesAsync(terrariumBoundaries);
+        return await terrariumDao.UpdateTerrariumBoundariesAsync(terrariumBoundaries);
     }
 
     public async Task<TerrariumBoundaries> GetTerrariumBoundariesAsync()

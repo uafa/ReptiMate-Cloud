@@ -23,11 +23,19 @@ public class TerrariumDAO : ITerrariumDAO
         throw new NotImplementedException();
     }
 
-    public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
+    public async Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries = await context.TerrariumBoundaries.AddAsync(terrariumBoundaries);
+        TerrariumBoundaries? boundaries = await context.TerrariumBoundaries.FirstOrDefaultAsync();
+        boundaries!.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
+        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+        boundaries.TemperatureBoundaryMax = terrariumBoundaries.TemperatureBoundaryMax;
+        boundaries.TemperatureBoundaryMin = terrariumBoundaries.TemperatureBoundaryMin;
+        boundaries.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
+        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+        
+        context.TerrariumBoundaries.Update(boundaries);
         await context.SaveChangesAsync();
-        return newTerrariumBoundaries.Entity;
+        return boundaries;
     }
 
     public async Task<TerrariumBoundaries> GetTerrariumBoundariesAsync()
