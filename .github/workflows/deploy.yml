@@ -40,4 +40,4 @@ jobs:
 
       - name: Deploy to Kubernetes cluster
         run: |
-          kubectl apply -f ../../k8s/deployment.yml
+          kubectl apply -f ./k8s/deployment.yml
