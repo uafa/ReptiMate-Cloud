@@ -26,6 +26,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
+          gcloud auth configure-docker eu.gcr.io
           docker build -t eu.gcr.io/sep4-cloud-386107/reptimate .
           docker push eu.gcr.io/sep4-cloud-386107/reptimate
 
