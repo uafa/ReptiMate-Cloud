@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿name: Deploy
-=======
 name: Deploy
->>>>>>> 92e2ad8d1b7da1aab7e0edc5a587c42485a9b91f
 
 on:
   pull_request:
@@ -21,11 +17,11 @@ jobs:
           project_id: sep4-cloud-386107
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-
+          
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
-          
+
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
@@ -37,10 +33,6 @@ jobs:
           gcloud auth configure-docker eu.gcr.io
           docker build -t eu.gcr.io/sep4-cloud-386107/reptimate .
           docker push eu.gcr.io/sep4-cloud-386107/reptimate
-
-      
-          docker build -t gcr.io/sep4-cloud-386107/reptimate .
-          docker push gcr.io/sep4-cloud-386107/reptimate
 
       - name: Configure kubectl
         run: |
