@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: reptimate
+      app: reptimate-label
   template:
     metadata:
       labels:
