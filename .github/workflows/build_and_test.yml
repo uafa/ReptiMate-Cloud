@@ -38,7 +38,7 @@ jobs:
       - name: Connect to Cloud SQL
         run: |
           gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
-          gcloud sql connect <instance-connection-name> --user=${{ secrets.DB_USER }} --quiet
+          gcloud sql connect sep4-cloud-386107:europe-west6:reptimate --user=${{ secrets.DB_USER }} --quiet
 
       - name: Build
         run: dotnet build --configuration Release
