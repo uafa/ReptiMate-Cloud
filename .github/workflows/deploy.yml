@@ -21,7 +21,7 @@ jobs:
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
-          
+
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
@@ -34,4 +34,10 @@ jobs:
           docker build -t eu.gcr.io/sep4-cloud-386107/reptimate .
           docker push eu.gcr.io/sep4-cloud-386107/reptimate
 
-      
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials reptimate-cluster --region europe-west1
+
+      - name: Deploy to Kubernetes cluster
+        run: |
+          kubectl apply -f ../../k8s/deployment.yml

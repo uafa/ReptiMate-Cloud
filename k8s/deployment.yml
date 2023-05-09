@@ -1,0 +1,19 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reptimate-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reptimate
+  template:
+    metadata:
+      labels:
+        app: reptimate-label
+    spec:
+      containers:
+        - name: reptimate-container
+          image: eu.gcr.io/sep4-cloud-386107/reptimate:latest
+          ports:
+            - containerPort: 80
