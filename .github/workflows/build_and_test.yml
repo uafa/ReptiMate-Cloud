@@ -44,7 +44,7 @@ jobs:
 
       - name: Connect to Cloud SQL
         run: |
-          gcloud sql connect sep4-cloud-386107:europe-west6:reptimate --user=${{ secrets.DB_USER }} --quiet
+          gcloud sql connect reptimate --user=${{ secrets.DB_USER }} --quiet
 
       - name: Build
         run: dotnet build --configuration Release
