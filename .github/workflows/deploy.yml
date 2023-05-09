@@ -34,10 +34,4 @@ jobs:
           docker build -t eu.gcr.io/sep4-cloud-386107/reptimate .
           docker push eu.gcr.io/sep4-cloud-386107/reptimate
 
-      - name: Configure kubectl
-        run: |
-          gcloud container clusters get-credentials reptimate-cluster --region europe-west1
-
-      - name: Update Kubernetes deployment
-        run: |
-          kubectl set image deployment/reptimate-deploy reptimate=eu.gcr.io/sep4-cloud-386107/reptimate:latest
+      
