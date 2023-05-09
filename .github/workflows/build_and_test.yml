@@ -34,6 +34,13 @@ jobs:
 
       - name: Install EF Core
         run: dotnet tool install --global dotnet-ef
+        
+      - name: Configure Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: sep4-cloud-386107
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
       - name: Connect to Cloud SQL
         run: |
