@@ -41,13 +41,10 @@ jobs:
           project_id: sep4-cloud-386107
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-
-      - name: Start Cloud SQL Proxy
-        run: | 
-          wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-          chmod +x cloud_sql_proxy
-          ./cloud_sql_proxy -instances=$DB_HOST:$DB_PORT=$DB_NAME &
-          sleep 10 # Wait for Cloud SQL Proxy to start
+  
+      - name: Connect to Cloud SQL
+        run: |
+          echo "${{ secrets.DB_PASS }}" | gcloud sql connect reptimate --user=${{ secrets.DB_USER }} --quiet --password-stdin
 
       - name: Build
         run: dotnet build --configuration Release
