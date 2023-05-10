@@ -48,10 +48,6 @@ jobs:
           chmod +x cloud_sql_proxy
           ./cloud_sql_proxy -instances=$DB_HOST:$DB_PORT=$DB_NAME &
           sleep 10 # Wait for Cloud SQL Proxy to start
-          
-      - name: Connect to Cloud SQL
-        run: |
-          gcloud sql connect reptimate --user=reptimate --quiet
 
       - name: Build
         run: dotnet build --configuration Release
