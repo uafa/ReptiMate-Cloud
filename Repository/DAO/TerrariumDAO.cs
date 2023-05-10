@@ -7,20 +7,31 @@ namespace Repository.DAO;
 public class TerrariumDAO : ITerrariumDAO
 {
     private readonly DatabaseContext context;
+    private ITerrariumDAOEventHandler eventHandler;
 
-    public TerrariumDAO(DatabaseContext context)
+    public TerrariumDAO(DatabaseContext context, ITerrariumDAOEventHandler eventHandler)
     {
         this.context = context;
+        this.eventHandler = eventHandler;
     }
 
-    public Task CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+    public async Task<TerrariumLimits> CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        throw new NotImplementedException();
+        EntityEntry<TerrariumLimits> newLimits = await context.TerrariumLimits.AddAsync(terrariumLimits);
+        await context.SaveChangesAsync();
+        eventHandler.PublishTerrariumLimitCreated(newLimits.Entity);
+        return newLimits.Entity;
     }
+    
 
-    public Task<TerrariumLimits> GetTerrariumLimitsAsync()
+    public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
-        throw new NotImplementedException();
+        TerrariumLimits? limits = await context.TerrariumLimits.LastAsync();
+
+        if (limits == null)
+            throw new Exception("No limits found");
+
+        return limits;
     }
 
     public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
@@ -40,5 +51,10 @@ public class TerrariumDAO : ITerrariumDAO
         }
 
         return boundaries;
+    }
+
+    public void PublishTerrariumLimitCreated(TerrariumLimits terrariumLimits)
+    {
+        
     }
 }

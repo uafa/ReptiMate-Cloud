@@ -1,5 +1,7 @@
 ﻿using System.Net.WebSockets;
 using System.Text;
+using Model;
+using Newtonsoft.Json;
 using WebSocket;
 using WebSocket.Gateway;
 using WebSocket.Services;
@@ -55,8 +57,21 @@ public class WebSocketClient : IWebSocketClient
         }
     }
 
+
+    public async Task SendConfigurationAsync(string terrariumLimitsInHexa)
+    {
+        if (_socket.State != WebSocketState.Open)
+            throw new Exception("WebSocket connection has not been established");
+        
+        var buffer = Encoding.UTF8.GetBytes(terrariumLimitsInHexa);
+
+        await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
+            CancellationToken.None);
+    }
+
     public async Task CloseAsync()
     {
         await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
     }
+
 }

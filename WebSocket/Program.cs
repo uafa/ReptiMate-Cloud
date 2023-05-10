@@ -15,6 +15,7 @@ class Program
         IServiceCollection services = new ServiceCollection();
 
         services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
+        services.AddScoped<ITerrariumServiceWS, TerrariumServiceWS>();
         services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
         services.AddDbContext<DatabaseContext>();
 
