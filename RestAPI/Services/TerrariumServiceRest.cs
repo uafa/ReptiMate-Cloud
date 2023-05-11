@@ -13,9 +13,9 @@ public class TerrariumServiceRest : ITerrariumServiceRest
         this.terrariumDao = terrariumDao;
     }
 
-    public async Task<TerrariumLimits> CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+    public async Task<TerrariumLimits> UpdateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        return await terrariumDao.CreateTerrariumLimitsAsync(terrariumLimits);
+        return await terrariumDao.UpdateTerrariumLimitsAsync(terrariumLimits);
     }
 
     public async Task<TerrariumLimits> GetTerrariumLimitsAsync()

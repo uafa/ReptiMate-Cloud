@@ -45,13 +45,13 @@ public class TerrariumController : ControllerBase
         }
     }
     
-    [HttpPost("limits")]
+    [HttpPut("limits")]
     public async Task<ActionResult<TerrariumBoundaries>> CreateTerrariumBoundariesAsync([FromBody] TerrariumLimits terrariumLimits)
     {
         try
         {
             var createdTerrariumLimits =
-                await terrariumServiceRest.CreateTerrariumLimitsAsync(terrariumLimits);
+                await terrariumServiceRest.UpdateTerrariumLimitsAsync(terrariumLimits);
             return Ok(createdTerrariumLimits);
         }
         catch (Exception e)
