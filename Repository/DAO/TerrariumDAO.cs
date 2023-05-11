@@ -13,14 +13,27 @@ public class TerrariumDAO : ITerrariumDAO
         this.context = context;
     }
 
-    public Task CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+    public async Task<TerrariumLimits> UpdateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        throw new NotImplementedException();
+        TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
+        limits!.TemperatureLimitMax = terrariumLimits.TemperatureLimitMax;
+        limits!.TemperatureLimitMin = terrariumLimits.TemperatureLimitMin;
+
+        context.TerrariumLimits.Update(limits);
+        await context.SaveChangesAsync();
+        return limits;
     }
 
-    public Task<TerrariumLimits> GetTerrariumLimitsAsync()
+    public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
-        throw new NotImplementedException();
+        TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
+
+        if (limits == null)
+        {
+            throw new Exception("No limits found");
+        }
+
+        return limits;
     }
 
     public async Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
@@ -32,7 +45,7 @@ public class TerrariumDAO : ITerrariumDAO
         boundaries.TemperatureBoundaryMin = terrariumBoundaries.TemperatureBoundaryMin;
         boundaries.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
         boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
-        
+
         context.TerrariumBoundaries.Update(boundaries);
         await context.SaveChangesAsync();
         return boundaries;
