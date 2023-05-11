@@ -13,31 +13,29 @@ public class TerrariumDAO : ITerrariumDAO
         this.context = context;
     }
 
-    public async Task<TerrariumLimits> CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+    public Task CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        EntityEntry<TerrariumLimits> newTerrariumLimits = await context.TerrariumLimits.AddAsync(terrariumLimits);
-        await context.SaveChangesAsync();
-        return newTerrariumLimits.Entity;
+        throw new NotImplementedException();
     }
 
-    public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
+    public Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
-        TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
-
-        if (limits == null)
-        {
-            throw new Exception("No limits found");
-        }
-
-        return limits;
+        throw new NotImplementedException();
     }
 
-    public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
+    public async Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries =
-            await context.TerrariumBoundaries.AddAsync(terrariumBoundaries);
+        TerrariumBoundaries? boundaries = await context.TerrariumBoundaries.FirstOrDefaultAsync();
+        boundaries!.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
+        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+        boundaries.TemperatureBoundaryMax = terrariumBoundaries.TemperatureBoundaryMax;
+        boundaries.TemperatureBoundaryMin = terrariumBoundaries.TemperatureBoundaryMin;
+        boundaries.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
+        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+        
+        context.TerrariumBoundaries.Update(boundaries);
         await context.SaveChangesAsync();
-        return newTerrariumBoundaries.Entity;
+        return boundaries;
     }
 
     public async Task<TerrariumBoundaries> GetTerrariumBoundariesAsync()

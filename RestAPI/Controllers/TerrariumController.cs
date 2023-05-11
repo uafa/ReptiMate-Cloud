@@ -15,13 +15,13 @@ public class TerrariumController : ControllerBase
         this.terrariumServiceRest = terrariumServiceRest;
     }
 
-    [HttpPost("boundaries")]
+    [HttpPut("boundaries")]
     public async Task<ActionResult<TerrariumBoundaries>> CreateTerrariumBoundariesAsync([FromBody] TerrariumBoundaries terrariumBoundaries)
     {
         try
         {
-            TerrariumBoundaries createdTerrariumBoundaries =  await terrariumServiceRest.CreateTerrariumBoundariesAsync(terrariumBoundaries);
-            return Ok(createdTerrariumBoundaries);
+            TerrariumBoundaries updatedTerrariumBoundaries = await terrariumServiceRest.UpdateTerrariumBoundariesAsync(terrariumBoundaries);
+            return Ok(updatedTerrariumBoundaries);
         }
         catch (Exception e)
         {
