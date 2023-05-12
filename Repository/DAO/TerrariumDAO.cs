@@ -15,30 +15,43 @@ public class TerrariumDAO : ITerrariumDAO
         this.eventHandler = eventHandler;
     }
 
-    public async Task<TerrariumLimits> CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+    public async Task<TerrariumLimits> UpdateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        EntityEntry<TerrariumLimits> newLimits = await context.TerrariumLimits.AddAsync(terrariumLimits);
+        TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
+        limits!.TemperatureLimitMax = terrariumLimits.TemperatureLimitMax;
+        limits!.TemperatureLimitMin = terrariumLimits.TemperatureLimitMin;
+
+        context.TerrariumLimits.Update(limits);
         await context.SaveChangesAsync();
-        eventHandler.PublishTerrariumLimitCreated(newLimits.Entity);
-        return newLimits.Entity;
+        eventHandler.PublishTerrariumLimitCreated(limits);
+        return limits;
     }
-    
 
     public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
-        TerrariumLimits? limits = await context.TerrariumLimits.LastAsync();
+        TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
 
         if (limits == null)
+        {
             throw new Exception("No limits found");
+        }
 
         return limits;
     }
 
-    public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
+    public async Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        EntityEntry<TerrariumBoundaries> newTerrariumBoundaries = await context.TerrariumBoundaries.AddAsync(terrariumBoundaries);
+        TerrariumBoundaries? boundaries = await context.TerrariumBoundaries.FirstOrDefaultAsync();
+        boundaries!.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
+        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+        boundaries.TemperatureBoundaryMax = terrariumBoundaries.TemperatureBoundaryMax;
+        boundaries.TemperatureBoundaryMin = terrariumBoundaries.TemperatureBoundaryMin;
+        boundaries.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
+        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+
+        context.TerrariumBoundaries.Update(boundaries);
         await context.SaveChangesAsync();
-        return newTerrariumBoundaries.Entity;
+        return boundaries;
     }
 
     public async Task<TerrariumBoundaries> GetTerrariumBoundariesAsync()

@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Model;
 using Repository.DAO;
 
 namespace ReptiMate_Cloud.Services;
@@ -11,20 +12,25 @@ public class TerrariumServiceRest : ITerrariumServiceRest
     {
         this.terrariumDao = terrariumDao;
     }
-    
-    public Task CreateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
+
+    public async Task<TerrariumLimits> UpdateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
     {
-        throw new NotImplementedException();
+        return await terrariumDao.UpdateTerrariumLimitsAsync(terrariumLimits);
     }
 
-    public Task<TerrariumLimits> GetTerrariumLimitsAsync()
+    public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
-        throw new NotImplementedException();
+        var limits = await terrariumDao.GetTerrariumLimitsAsync();
+        if (limits == null)
+        {
+            throw new Exception("Not found");
+        }
+        return limits;
     }
 
-    public async Task<TerrariumBoundaries> CreateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
+    public async Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries)
     {
-        return await terrariumDao.CreateTerrariumBoundariesAsync(terrariumBoundaries);
+        return await terrariumDao.UpdateTerrariumBoundariesAsync(terrariumBoundaries);
     }
 
     public async Task<TerrariumBoundaries> GetTerrariumBoundariesAsync()

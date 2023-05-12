@@ -2,6 +2,7 @@
 using System.Text;
 using Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSocket;
 using WebSocket.Gateway;
 using WebSocket.Services;
@@ -48,8 +49,12 @@ public class WebSocketClient : IWebSocketClient
                 Console.WriteLine($" WebSocketClient: Received data: {data}");
 
                 // Handle incoming data
-                if (data != null)
+
+                var jObject = JObject.Parse(data);
+
+                if (jObject["cmd"].Value<string>() == "rx")
                 {
+                    Console.WriteLine($" WebSocketClient: Received data: ");
                     var convertedData = dataConvertor.GetData(data);
                     measurementsService.SendMeasurements(convertedData);
                 }
@@ -73,5 +78,4 @@ public class WebSocketClient : IWebSocketClient
     {
         await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
     }
-
 }

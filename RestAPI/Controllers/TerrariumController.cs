@@ -15,13 +15,13 @@ public class TerrariumController : ControllerBase
         this.terrariumServiceRest = terrariumServiceRest;
     }
 
-    [HttpPost("boundaries")]
+    [HttpPut("boundaries")]
     public async Task<ActionResult<TerrariumBoundaries>> CreateTerrariumBoundariesAsync([FromBody] TerrariumBoundaries terrariumBoundaries)
     {
         try
         {
-            TerrariumBoundaries createdTerrariumBoundaries =  await terrariumServiceRest.CreateTerrariumBoundariesAsync(terrariumBoundaries);
-            return Ok(createdTerrariumBoundaries);
+            TerrariumBoundaries updatedTerrariumBoundaries = await terrariumServiceRest.UpdateTerrariumBoundariesAsync(terrariumBoundaries);
+            return Ok(updatedTerrariumBoundaries);
         }
         catch (Exception e)
         {
@@ -44,4 +44,37 @@ public class TerrariumController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+    
+    [HttpPut("limits")]
+    public async Task<ActionResult<TerrariumBoundaries>> CreateTerrariumBoundariesAsync([FromBody] TerrariumLimits terrariumLimits)
+    {
+        try
+        {
+            var createdTerrariumLimits =
+                await terrariumServiceRest.UpdateTerrariumLimitsAsync(terrariumLimits);
+            return Ok(createdTerrariumLimits);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet("limits")]
+    public async Task<ActionResult<TerrariumLimits>> GetTerrariumLimitsAsync()
+    {
+        try
+        {
+            var terrariumLimits = await terrariumServiceRest.GetTerrariumLimitsAsync();
+            return Ok(terrariumLimits);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    
 }
