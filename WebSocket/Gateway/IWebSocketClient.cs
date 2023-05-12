@@ -6,5 +6,5 @@ public interface IWebSocketClient
 {
     public Task ConnectAsync();
     public Task CloseAsync();
-    public Task SendConfigurationAsync(String terrariumLimitsInHexa);
+    public Task SendConfigurationAsync(TerrariumLimits terrariumLimits);
 }

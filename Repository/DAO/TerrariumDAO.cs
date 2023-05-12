@@ -7,12 +7,10 @@ namespace Repository.DAO;
 public class TerrariumDAO : ITerrariumDAO
 {
     private readonly DatabaseContext context;
-    private ITerrariumDAOEventHandler eventHandler;
 
-    public TerrariumDAO(DatabaseContext context, ITerrariumDAOEventHandler eventHandler)
+    public TerrariumDAO(DatabaseContext context)
     {
         this.context = context;
-        this.eventHandler = eventHandler;
     }
 
     public async Task<TerrariumLimits> UpdateTerrariumLimitsAsync(TerrariumLimits terrariumLimits)
@@ -20,10 +18,8 @@ public class TerrariumDAO : ITerrariumDAO
         TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
         limits!.TemperatureLimitMax = terrariumLimits.TemperatureLimitMax;
         limits!.TemperatureLimitMin = terrariumLimits.TemperatureLimitMin;
-
         context.TerrariumLimits.Update(limits);
         await context.SaveChangesAsync();
-        eventHandler.PublishTerrariumLimitCreated(limits);
         return limits;
     }
 
@@ -64,10 +60,5 @@ public class TerrariumDAO : ITerrariumDAO
         }
 
         return boundaries;
-    }
-
-    public void PublishTerrariumLimitCreated(TerrariumLimits terrariumLimits)
-    {
-        
     }
 }

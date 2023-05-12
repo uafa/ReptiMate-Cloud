@@ -14,9 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMeasurementsServiceRest, MeasurementsServiceRest>();
-builder.Services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
 builder.Services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
-
 builder.Services.AddScoped<ITerrariumServiceRest, TerrariumServiceRest>();
 builder.Services.AddScoped<ITerrariumDAO, TerrariumDAO>();
 
