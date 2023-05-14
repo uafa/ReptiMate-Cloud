@@ -10,4 +10,5 @@ public interface ITerrariumServiceRest
     Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries);
     Task<TerrariumBoundaries> GetTerrariumBoundariesAsync();
     Task<Terrarium> CreateTerrariumAsync(Terrarium terrarium);
+    Task<Terrarium> GetTerrariumAsync();
 }

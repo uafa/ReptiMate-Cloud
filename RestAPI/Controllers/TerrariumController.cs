@@ -75,6 +75,36 @@ public class TerrariumController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpPost]
+    public async Task<ActionResult> CreateTerrariumAsync(Terrarium terrarium)
+    {
+        try
+        {
+            var terrariumCreated = await terrariumServiceRest.CreateTerrariumAsync(terrarium);
+            return Ok(terrariumCreated);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<Terrarium>> GetTerrariumAsync()
+    {
+        try
+        {
+            var terrarium = await terrariumServiceRest.GetTerrariumAsync();
+            return Ok(terrarium);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
     
     
 }
