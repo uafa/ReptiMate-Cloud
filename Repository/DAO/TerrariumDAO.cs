@@ -71,7 +71,11 @@ public class TerrariumDAO : ITerrariumDAO
 
     public async Task<Terrarium> GetTerrariumAsync()
     {
-        Terrarium? terrarium = await context.Terrarium.FirstOrDefaultAsync();
+        Terrarium? terrarium = await context.Terrarium
+            .Include(t => t.terrariumLimits)
+            .Include(t => t.terrariumBoundaries)
+            .Include(t => t.measurements)
+            .FirstOrDefaultAsync();
 
         if (terrarium == null)
         {
@@ -80,4 +84,5 @@ public class TerrariumDAO : ITerrariumDAO
 
         return terrarium;
     }
+
 }
