@@ -62,4 +62,22 @@ public class TerrariumDAO : ITerrariumDAO
 
         return boundaries;
     }
+
+    public async Task CreateTerrariumAsync(Terrarium terrarium)
+    {
+        await context.Terrarium.AddAsync(terrarium);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task<Terrarium> GetTerrariumAsync()
+    {
+        Terrarium? terrarium = await context.Terrarium.FirstOrDefaultAsync();
+
+        if (terrarium == null)
+        {
+            throw new Exception("No terrarium found");
+        }
+
+        return terrarium;
+    }
 }

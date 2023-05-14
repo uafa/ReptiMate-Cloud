@@ -4,9 +4,9 @@ namespace Model;
 
 public class Terrarium
 {
-    [Key]
-    public String name { get; set; }
-    public TerrariumBoundaries terrariumBoundaries;
-    public TerrariumLimits terrariumLimits;
-    public Measurements measurements;
+    [Key] public String name { get; set; }
+    public TerrariumBoundaries terrariumBoundaries { get; set; }
+    public TerrariumLimits terrariumLimits { get; set; }
+    public Measurements measurements { get; set; }
+
 }
