@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Model;
-using Repository;
 using ReptiMate_Cloud.Services;
 
 namespace ReptiMate_Cloud.Controllers;
@@ -22,8 +21,7 @@ public class MeasurementsController : ControllerBase
     {
         try
         {
-            Measurements? measurements = await measurementsServiceRest.GetLatestMeasurement();
-            Console.WriteLine(measurements.DateTime.TimeOfDay);
+            Measurements measurements = await measurementsServiceRest.GetLatestMeasurementAsync();
             return Ok(measurements);
         }
         catch (Exception e)
