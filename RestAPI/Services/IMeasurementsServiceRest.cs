@@ -4,5 +4,5 @@ namespace ReptiMate_Cloud.Services;
 
 public interface IMeasurementsServiceRest
 {
-    Task<Measurements> GetLatestMeasurement();
+    Task<Measurements> GetLatestMeasurementAsync();
 }

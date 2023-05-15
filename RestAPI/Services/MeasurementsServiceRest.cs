@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Model;
+﻿using Model;
 using Repository.DAO;
 
 namespace ReptiMate_Cloud.Services;
@@ -17,110 +16,123 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
         this.notificationDao = notificationDao;
     }
 
-    public async Task<Measurements> GetLatestMeasurement()
+    public async Task<Measurements> GetLatestMeasurementAsync()
     {
         var measure = await measurementsDao.GetLatestMeasurementAsync();
 
         if (measure == null) throw new Exception("Not found");
 
-        Task<TerrariumBoundaries> boundaries = terrariumDao.GetTerrariumBoundariesAsync();
+        TerrariumBoundaries boundaries = await terrariumDao.GetTerrariumBoundariesAsync();
 
-        Console.WriteLine("here");
-        HumidityBoundaryCheck(measure, boundaries);
-        Console.WriteLine("or here");
-        TemperatureBoundaryCheck(measure, boundaries);
-        Co2BoundaryCheck(measure, boundaries);
+        await HumidityBoundaryCheckAsync(measure, boundaries);
+        await TemperatureBoundaryCheckAsync(measure, boundaries);
+        await Co2BoundaryCheckAsync(measure, boundaries);
 
         return measure;
     }
-
-    private void Co2BoundaryCheck(Measurements measure, Task<TerrariumBoundaries> boundaries)
+    
+    private async Task HumidityBoundaryCheckAsync(Measurements measurements, TerrariumBoundaries boundaries)
     {
-        double co2BoundaryMin = boundaries.Result.CO2BoundaryMin;
-        double co2BoundaryMax = boundaries.Result.CO2BoundaryMax;
-        
-        if (measure.Co2 < co2BoundaryMin)
-        {
-            Notification notification = new Notification
-            {
-                Message = $"The CO2 is lower than the set boundary! Current humidity: {measure.Co2}", 
-                DateTime = DateTime.Now,
-                Status = false
-            };
+        double humidityBoundaryMin = boundaries.HumidityBoundaryMin;
+        double humidityBoundaryMax = boundaries.HumidityBoundaryMax;
+        double diff;
 
-            notificationDao.CreateNotificationAsync(notification);
-        }
-        else if (measure.Co2 > co2BoundaryMax)
-        {
-            Notification notification = new Notification
-            {
-                Message = $"The CO2 is higher than the set boundary! Current humidity: {measure.Co2}", 
-                DateTime = DateTime.Now,
-                Status = false
-            };
-
-            notificationDao.CreateNotificationAsync(notification);
-        }
-    }
-
-    private void TemperatureBoundaryCheck(Measurements measure, Task<TerrariumBoundaries> boundaries)
-    {
-        
-        double temperatureBoundaryMin = boundaries.Result.TemperatureBoundaryMin;
-        double temperatureBoundaryMax = boundaries.Result.TemperatureBoundaryMax;
-        
-        if (measure.Temperature < temperatureBoundaryMin)
-        {
-            Notification notification = new Notification
-            {
-                Message = $"The temperature is lower than the set boundary! Current humidity: {measure.Temperature}", 
-                DateTime = DateTime.Now,
-                Status = false
-            };
-
-            notificationDao.CreateNotificationAsync(notification);
-        }
-        else if (measure.Temperature > temperatureBoundaryMax)
-        {
-            Notification notification = new Notification
-            {
-                Message = $"The temperature is higher than the set boundary! Current humidity: {measure.Temperature}", 
-                DateTime = DateTime.Now,
-                Status = false
-            };
-
-            notificationDao.CreateNotificationAsync(notification);
-        }
-    }
-
-    private  void HumidityBoundaryCheck(Measurements measurements, Task<TerrariumBoundaries> boundaries)
-    {
-        Console.WriteLine("Humidity start");
-        double humidityBoundaryMin = boundaries.Result.HumidityBoundaryMin;
-        double humidityBoundaryMax = boundaries.Result.HumidityBoundaryMax;
-        
         if (measurements.Humidity < humidityBoundaryMin)
         {
+            diff = humidityBoundaryMin - measurements.Humidity;
             Notification notification = new Notification
             {
-                Message = $"The humidity is lower than the set boundary! Current humidity: {measurements.Humidity}", 
-                DateTime = DateTime.Now,
+                Message = $"Humidity level is outside of the boundary. The current value is: {measurements.Humidity}," +
+                          $" which is {diff} lower than the boundary that is: {humidityBoundaryMin}.", 
+                DateTime = DateTime.UtcNow,
                 Status = false
             };
 
-            notificationDao.CreateNotificationAsync(notification);
+           await notificationDao.CreateNotificationAsync(notification);
         }
         else if (measurements.Humidity > humidityBoundaryMax)
         {
-            Console.WriteLine("It s upper");
+            diff = measurements.Humidity - humidityBoundaryMax;
             Notification notification = new Notification
             {
-                Message = $"The humidity is higher than the set boundary! Current humidity: {measurements.Humidity}", 
-                DateTime = DateTime.Now,
+                Message = $"Humidity level is outside of the boundary. The current value is: {measurements.Humidity}," +
+                          $" which is {diff} higher than the boundary that is: {humidityBoundaryMax}.", 
+                DateTime = DateTime.UtcNow,
                 Status = false
             };
 
-            notificationDao.CreateNotificationAsync(notification);
+            await notificationDao.CreateNotificationAsync(notification);
+        }
+    }    
+    
+    private async Task  TemperatureBoundaryCheckAsync(Measurements measurements, TerrariumBoundaries boundaries) 
+    {
+        double temperatureBoundaryMin = boundaries.TemperatureBoundaryMin; 
+        double temperatureBoundaryMax = boundaries.TemperatureBoundaryMax;
+        double diff;
+        
+        if (measurements.Temperature < temperatureBoundaryMin) 
+        { 
+            diff = temperatureBoundaryMin - measurements.Temperature;
+            Notification notification = new Notification
+            {
+                Message = $"Temperature level is outside of the boundary. The current value is: {measurements.Temperature}," +
+                          $" which is {diff} lower than the boundary that is: {temperatureBoundaryMin}.",  
+                DateTime = DateTime.UtcNow,
+                Status = false
+            };
+     
+            await notificationDao.CreateNotificationAsync(notification);
+        }
+        else if (measurements.Temperature > temperatureBoundaryMax)
+        {
+            Console.WriteLine(measurements.Temperature);
+            Console.WriteLine(temperatureBoundaryMax);
+            diff = measurements.Temperature - temperatureBoundaryMax;
+            Notification notification = new Notification
+            {
+                Message = $"Temperature level is outside of the boundary. The current value is: {measurements.Temperature}," +
+                          $" which is {diff} higher than the boundary that is: {temperatureBoundaryMax}.",  
+                DateTime = DateTime.UtcNow,
+                Status = false
+            };
+     
+            await notificationDao.CreateNotificationAsync(notification);
         }
     }
+    
+    private async Task Co2BoundaryCheckAsync(Measurements measurements, TerrariumBoundaries boundaries)
+        {
+            double co2BoundaryMin = boundaries.CO2BoundaryMin;
+            double co2BoundaryMax = boundaries.CO2BoundaryMax;
+            double diff;
+            
+            if (measurements.Co2 < co2BoundaryMin)
+            {
+                diff = co2BoundaryMin - measurements.Co2;
+                Notification notification = new Notification
+                {
+                    Message = $"Temperature level is outside of the boundary. The current value is: {measurements.Co2}," +
+                              $" which is {diff} lower than the boundary that is: {co2BoundaryMin}.",  
+                    DateTime = DateTime.UtcNow,
+                    Status = false
+                };
+    
+                await notificationDao.CreateNotificationAsync(notification);
+            }
+            else if (measurements.Co2 > co2BoundaryMax)
+            {
+                diff = measurements.Co2 - co2BoundaryMax;
+                Notification notification = new Notification
+                {
+                    Message = $"Temperature level is outside of the boundary. The current value is: {measurements.Co2}," +
+                              $" which is {diff} higher than the boundary that is: {co2BoundaryMax}.",
+                    DateTime = DateTime.UtcNow,
+                    Status = false
+                };
+    
+                await notificationDao.CreateNotificationAsync(notification);
+            }
+        }
+    
 }

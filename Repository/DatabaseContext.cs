@@ -6,10 +6,11 @@ namespace Repository;
 
 public class DatabaseContext : DbContext
 {
-    public DbSet<Measurements> Measurements { get; set; }
-    public DbSet<TerrariumBoundaries> TerrariumBoundaries { get; set; }
-    public DbSet<TerrariumLimits> TerrariumLimits { get; set; }
-    public DbSet<Terrarium> Terrarium { get; set; }
+    public DbSet<Measurements>? Measurements { get; set; }
+    public DbSet<TerrariumBoundaries>? TerrariumBoundaries { get; set; }
+    public DbSet<TerrariumLimits>? TerrariumLimits { get; set; }
+    public DbSet<Terrarium>? Terrarium { get; set; }
+    public DbSet<Notification>? Notifications { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -34,5 +35,6 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<TerrariumBoundaries>().HasKey(terrariumBoundaries => terrariumBoundaries.Id);
         modelBuilder.Entity<TerrariumLimits>().HasKey(terrariumLimits => terrariumLimits.Id);
         modelBuilder.Entity<Terrarium>().HasKey(terrarium => terrarium.name);
+        modelBuilder.Entity<Notification>().HasKey(notification => notification.Id);
     }
 }
