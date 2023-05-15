@@ -31,8 +31,8 @@ namespace Repository.Migrations
                     b.Property<double>("Co2")
                         .HasColumnType("double precision");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<double>("Humidity")
                         .HasColumnType("double precision");
@@ -40,12 +40,55 @@ namespace Repository.Migrations
                     b.Property<double>("Temperature")
                         .HasColumnType("double precision");
 
-                    b.Property<TimeOnly>("Time")
-                        .HasColumnType("time without time zone");
-
                     b.HasKey("Id");
 
                     b.ToTable("Measurements");
+                });
+
+            modelBuilder.Entity("Model.Terrarium", b =>
+                {
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("measurementsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("terrariumBoundariesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("terrariumLimitsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("name");
+
+                    b.HasIndex("measurementsId");
+
+                    b.HasIndex("terrariumBoundariesId");
+
+                    b.HasIndex("terrariumLimitsId");
+
+                    b.ToTable("Terrarium");
+                });
+
+            modelBuilder.Entity("Model.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Model.TerrariumBoundaries", b =>
@@ -92,6 +135,33 @@ namespace Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TerrariumLimits");
+                });
+
+            modelBuilder.Entity("Model.Terrarium", b =>
+                {
+                    b.HasOne("Model.Measurements", "measurements")
+                        .WithMany()
+                        .HasForeignKey("measurementsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.TerrariumBoundaries", "terrariumBoundaries")
+                        .WithMany()
+                        .HasForeignKey("terrariumBoundariesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.TerrariumLimits", "terrariumLimits")
+                        .WithMany()
+                        .HasForeignKey("terrariumLimitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("measurements");
+
+                    b.Navigation("terrariumBoundaries");
+
+                    b.Navigation("terrariumLimits");
                 });
 #pragma warning restore 612, 618
         }

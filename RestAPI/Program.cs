@@ -20,6 +20,9 @@ builder.Services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
 builder.Services.AddScoped<ITerrariumServiceRest, TerrariumServiceRest>();
 builder.Services.AddScoped<ITerrariumDAO, TerrariumDAO>();
 
+builder.Services.AddScoped<INotificationsService, NotificationServiceRest>();
+builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
+
 builder.Services.AddDbContext<DatabaseContext>();
 
 var app = builder.Build();

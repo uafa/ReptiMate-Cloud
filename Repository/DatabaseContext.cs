@@ -9,6 +9,7 @@ public class DatabaseContext : DbContext
     public DbSet<Measurements> Measurements { get; set; }
     public DbSet<TerrariumBoundaries> TerrariumBoundaries { get; set; }
     public DbSet<TerrariumLimits> TerrariumLimits { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
