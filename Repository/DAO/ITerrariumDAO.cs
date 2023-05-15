@@ -8,4 +8,6 @@ public interface ITerrariumDAO
     public Task<TerrariumLimits> GetTerrariumLimitsAsync();
     public Task<TerrariumBoundaries> UpdateTerrariumBoundariesAsync(TerrariumBoundaries terrariumBoundaries);
     public Task<TerrariumBoundaries> GetTerrariumBoundariesAsync();
+    public Task CreateTerrariumAsync(Terrarium terrarium);
+    public Task<Terrarium> GetTerrariumAsync();
 }
