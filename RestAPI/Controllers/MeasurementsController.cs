@@ -18,12 +18,12 @@ public class MeasurementsController : ControllerBase
     }
 
     [HttpGet("latest")]
-    public async Task<ActionResult<Measurements>> getLatestMeasurement()
+    public async Task<ActionResult<Measurements>> GetLatestMeasurement()
     {
         try
         {
             Measurements? measurements = await measurementsServiceRest.GetLatestMeasurement();
-            Console.WriteLine(measurements.Time);
+            Console.WriteLine(measurements.DateTime.TimeOfDay);
             return Ok(measurements);
         }
         catch (Exception e)
@@ -32,5 +32,6 @@ public class MeasurementsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
     
 }

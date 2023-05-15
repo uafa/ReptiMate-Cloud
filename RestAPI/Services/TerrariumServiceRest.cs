@@ -41,4 +41,19 @@ public class TerrariumServiceRest : ITerrariumServiceRest
 
         return boundaries;
     }
+
+    public async Task<Terrarium> CreateTerrariumAsync(Terrarium terrarium)
+    {
+        await terrariumDao.CreateTerrariumAsync(terrarium);
+        return terrarium;
+    }
+
+    public async Task<Terrarium> GetTerrariumAsync()
+    {
+        var terrarium = await terrariumDao.GetTerrariumAsync();
+
+        if (terrarium == null) throw new Exception("Not found");
+        return terrarium;
+    }
+    
 }

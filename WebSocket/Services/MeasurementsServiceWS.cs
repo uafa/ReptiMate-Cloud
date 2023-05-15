@@ -18,14 +18,14 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
 
         var now = DateTime.Now;
         measurements.Id = Guid.NewGuid();
-        measurements.Date = DateOnly.FromDateTime(now);
-        measurements.Time = TimeOnly.FromDateTime(now);
+        measurements.DateTime = now;
         measurements.Temperature = GetTemperature(data);
         measurements.Co2 = GetCO2(data);
         measurements.Humidity = GetHumidity(data);
 
         measurementsDao.CreateMeasurementsAsync(measurements);
     }
+
 
 
     private double GetTemperature(string data)
