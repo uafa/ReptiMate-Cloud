@@ -13,9 +13,9 @@ public class NotificationServiceRest : INotificationsService
         this.notificationDao = notificationDao;
     }
     
-    public async Task UpdateNotificationAsync(List<string> idList)
+    public async Task UpdateNotificationAsync(List<string> ids)
     {
-        await notificationDao.UpdateNotificationAsync(idList);
+        await notificationDao.UpdateNotificationAsync(ids);
     }
 
     public async Task<ICollection<Notification>> GetAllNotificationsAsync()
