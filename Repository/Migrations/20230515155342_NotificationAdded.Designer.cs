@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository;
@@ -11,9 +12,11 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230515155342_NotificationAdded")]
+    partial class NotificationAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +34,8 @@ namespace Repository.Migrations
                     b.Property<double>("Co2")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<double>("Humidity")
                         .HasColumnType("double precision");
@@ -40,34 +43,33 @@ namespace Repository.Migrations
                     b.Property<double>("Temperature")
                         .HasColumnType("double precision");
 
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time without time zone");
+
                     b.HasKey("Id");
 
                     b.ToTable("Measurements");
                 });
 
-            modelBuilder.Entity("Model.Terrarium", b =>
+            modelBuilder.Entity("Model.Notification", b =>
                 {
-                    b.Property<string>("name")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("measurementsId")
-                        .HasColumnType("uuid");
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
-                    b.Property<Guid>("terrariumBoundariesId")
-                        .HasColumnType("uuid");
+                    b.HasKey("Id");
 
-                    b.Property<Guid>("terrariumLimitsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("name");
-
-                    b.HasIndex("measurementsId");
-
-                    b.HasIndex("terrariumBoundariesId");
-
-                    b.HasIndex("terrariumLimitsId");
-
-                    b.ToTable("Terrarium");
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Model.TerrariumBoundaries", b =>
@@ -114,33 +116,6 @@ namespace Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TerrariumLimits");
-                });
-
-            modelBuilder.Entity("Model.Terrarium", b =>
-                {
-                    b.HasOne("Model.Measurements", "measurements")
-                        .WithMany()
-                        .HasForeignKey("measurementsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Model.TerrariumBoundaries", "terrariumBoundaries")
-                        .WithMany()
-                        .HasForeignKey("terrariumBoundariesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Model.TerrariumLimits", "terrariumLimits")
-                        .WithMany()
-                        .HasForeignKey("terrariumLimitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("measurements");
-
-                    b.Navigation("terrariumBoundaries");
-
-                    b.Navigation("terrariumLimits");
                 });
 #pragma warning restore 612, 618
         }

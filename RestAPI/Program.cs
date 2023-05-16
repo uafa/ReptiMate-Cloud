@@ -1,9 +1,8 @@
 using System.Data.SqlClient;
 using Repository;
-using Repository.DAO;
-using WebSocket.Services;
 using ReptiMate_Cloud.Services;
-using WebSocket.Gateway;
+using RestDAOs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +13,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMeasurementsServiceRest, MeasurementsServiceRest>();
-builder.Services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
+builder.Services.AddScoped<IRestMeasurementsDAO, RestMeasurementsDAO>();
+
+
+
+
+
+
+
 builder.Services.AddScoped<ITerrariumServiceRest, TerrariumServiceRest>();
-builder.Services.AddScoped<ITerrariumDAO, TerrariumDAO>();
+builder.Services.AddScoped<IRestTerrariumDAO, RestTerrariumDAO>();
+
+builder.Services.AddScoped<INotificationsService, NotificationServiceRest>();
+builder.Services.AddScoped<IRestNotificationDAO, RestNotificationDAO>();
 
 builder.Services.AddDbContext<DatabaseContext>();
 

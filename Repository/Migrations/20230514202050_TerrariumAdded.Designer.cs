@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository;
@@ -11,9 +12,11 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230514202050_TerrariumAdded")]
+    partial class TerrariumAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,14 +34,17 @@ namespace Repository.Migrations
                     b.Property<double>("Co2")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<double>("Humidity")
                         .HasColumnType("double precision");
 
                     b.Property<double>("Temperature")
                         .HasColumnType("double precision");
+
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
 

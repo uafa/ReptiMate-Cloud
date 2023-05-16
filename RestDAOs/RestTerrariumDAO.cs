@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Model;
+using Repository;
 
-namespace Repository.DAO;
+namespace RestDAOs;
 
-public class TerrariumDAO : ITerrariumDAO
+public class RestTerrariumDAO : IRestTerrariumDAO
 {
     private readonly DatabaseContext context;
 
-    public TerrariumDAO(DatabaseContext context)
+    public RestTerrariumDAO(DatabaseContext context)
     {
         this.context = context;
     }
@@ -60,5 +60,27 @@ public class TerrariumDAO : ITerrariumDAO
         }
 
         return boundaries;
+    }
+
+    public async Task CreateTerrariumAsync(Terrarium terrarium)
+    {
+        await context.Terrarium.AddAsync(terrarium);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task<Terrarium> GetTerrariumAsync()
+    {
+        Terrarium? terrarium = await context.Terrarium
+            .Include(t => t.terrariumLimits)
+            .Include(t => t.terrariumBoundaries)
+            .Include(t => t.measurements)
+            .FirstOrDefaultAsync();
+
+        if (terrarium == null)
+        {
+            throw new Exception("No terrarium found");
+        }
+
+        return terrarium;
     }
 }

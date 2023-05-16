@@ -15,6 +15,9 @@ class Program
         IServiceCollection services = new ServiceCollection();
 
         services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
+        services.AddScoped<IWSMeasurementsDAO, WSMeasurementsDAO>();
+        services.AddScoped<IWSNotificationDAO, WSNotificationDAO>();
+        services.AddScoped<IWSBoundariesDAO, WSBoundariesDAO>();
         services.AddScoped<ITerrariumServiceWS, TerrariumServiceWS>();
         services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
         services.AddScoped<ITerrariumDAO, TerrariumDAO>();

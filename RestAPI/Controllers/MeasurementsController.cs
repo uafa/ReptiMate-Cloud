@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Model;
-using Repository;
 using ReptiMate_Cloud.Services;
 
 namespace ReptiMate_Cloud.Controllers;
@@ -18,12 +17,11 @@ public class MeasurementsController : ControllerBase
     }
 
     [HttpGet("latest")]
-    public async Task<ActionResult<Measurements>> getLatestMeasurement()
+    public async Task<ActionResult<Measurements>> GetLatestMeasurement()
     {
         try
         {
-            Measurements? measurements = await measurementsServiceRest.GetLatestMeasurement();
-            Console.WriteLine(measurements.Time);
+            Measurements measurements = await measurementsServiceRest.GetLatestMeasurementAsync();
             return Ok(measurements);
         }
         catch (Exception e)
@@ -32,5 +30,6 @@ public class MeasurementsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
     
 }

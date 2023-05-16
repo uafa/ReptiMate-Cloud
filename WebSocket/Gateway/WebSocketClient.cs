@@ -1,61 +1,50 @@
-﻿    using System.Net.WebSockets;
-    using System.Text;
-    using Model;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using WebSocket;
-    using WebSocket.Gateway;
-    using WebSocket.Services;
+﻿using System.Net.WebSockets;
+using System.Text;
+using Newtonsoft.Json.Linq;
+using WebSocket;
+using WebSocket.Gateway;
+using WebSocket.Services;
 
-    public class WebSocketClient : IWebSocketClient
+public class WebSocketClient : IWebSocketClient
+{
+    private readonly Uri _url;
+    private ClientWebSocket _socket;
+    private readonly IMeasurementsServiceWS measurementsService;
+    private DataConvertor dataConvertor;
+
+    public WebSocketClient(string url, IMeasurementsServiceWS measurementsService)
     {
-        private readonly Uri _url;
-        private ClientWebSocket _socket;
-        private readonly IMeasurementsServiceWS measurementsService;
-        private readonly ITerrariumServiceWS terrariumService;
-        private DataConvertor dataConvertor;
-        public WebSocketClient(string url, IMeasurementsServiceWS measurementsService, ITerrariumServiceWS terrariumService)
+        _url = new Uri(url);
+        this.measurementsService = measurementsService;
+        dataConvertor = new DataConvertor();
+    }
+
+    public async Task ConnectAsync()
+    {
+        _socket = new ClientWebSocket();
+
+        await _socket.ConnectAsync(_url, CancellationToken.None);
+
+        Console.WriteLine($"WebSocket connected to {_url}");
+    }
+
+    public async Task StartReceivingAsync()
+    {
+        var buffer = new byte[1024];
+
+        while (_socket.State == WebSocketState.Open)
         {
-            _url = new Uri(url);
-            this.measurementsService = measurementsService;
-            this.terrariumService = terrariumService;
-            dataConvertor = new DataConvertor();
-        }
+            var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-        public async Task ConnectAsync()
-        {
-            _socket = new ClientWebSocket();
 
-            await _socket.ConnectAsync(_url, CancellationToken.None);
-
-            Console.WriteLine($"WebSocket connected to {_url}");
-        }
-
-        public async Task StartReceivingAsync()
-        {
-            var buffer = new byte[1024];
-
-            TerrariumLimits currentLimits = await terrariumService.GetTerrariumLimitsAsync();
-
-            TerrariumLimits possibleNewLimits;
-            
-            Console.WriteLine("Current Limits: Max: " + currentLimits.TemperatureLimitMax + " Min: " + currentLimits.TemperatureLimitMin);
-            
-            await SendConfigurationAsync(currentLimits);
-
-            while (_socket.State == WebSocketState.Open)
+            if (result.MessageType == WebSocketMessageType.Close)
             {
-
-                var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                
-                if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                }
-                else
-                {
-                    var data = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    Console.WriteLine($" WebSocketClient: Received data: {data}");
+                await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+            }
+            else
+            {
+                var data = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                Console.WriteLine($" WebSocketClient: Received data: {data}");
 
                     // Handle incoming data
 
