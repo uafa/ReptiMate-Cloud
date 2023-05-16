@@ -24,6 +24,11 @@ namespace Repository.Migrations
                 {
                     table.PrimaryKey("PK_Notifications", x => x.Id);
                 });
+            
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_DateTime",
+                table: "Notifications",
+                column: "DateTime");
         }
 
         /// <inheritdoc />
@@ -31,6 +36,15 @@ namespace Repository.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Notifications");
+            
+            
+            migrationBuilder.AlterColumn<DateTime>(
+                name: "DateTime",
+                table: "Measurements",
+                type: "timestamp without time zone",
+                nullable: false,
+                oldClrType: typeof(DateTime),
+                oldType: "timestamp with time zone");
         }
     }
 }

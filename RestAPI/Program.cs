@@ -12,12 +12,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpClient();
+
 builder.Services.AddScoped<IMeasurementsServiceRest, MeasurementsServiceRest>();
 builder.Services.AddScoped<IRestMeasurementsDAO, RestMeasurementsDAO>();
-
-
-
-
 
 
 
@@ -26,6 +25,9 @@ builder.Services.AddScoped<IRestTerrariumDAO, RestTerrariumDAO>();
 
 builder.Services.AddScoped<INotificationsService, NotificationServiceRest>();
 builder.Services.AddScoped<IRestNotificationDAO, RestNotificationDAO>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountDAO, AccountDAO>();
+
 
 builder.Services.AddDbContext<DatabaseContext>();
 
