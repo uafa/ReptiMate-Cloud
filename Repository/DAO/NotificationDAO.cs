@@ -13,7 +13,7 @@ public class NotificationDAO : INotificationDAO
     
     public async Task UpdateNotificationAsync(string id)
     {
-        Notification? notification = await context.Notifications!.FindAsync(id);
+        Notification? notification = await context.Notifications!.FindAsync(Guid.Parse(id));
         if (notification == null)
         {
             throw new Exception($"Notification with {id} not found");
@@ -42,6 +42,5 @@ public class NotificationDAO : INotificationDAO
         {
            Console.WriteLine("Exception" + e); 
         }
-        
     }
 }
