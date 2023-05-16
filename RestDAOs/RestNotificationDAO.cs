@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Repository;
 
@@ -15,14 +16,12 @@ public class RestNotificationDAO : IRestNotificationDAO
     public async Task UpdateNotificationAsync(List<string> idList)
     {
         var ids = idList.Select(id => Guid.Parse(id));
-        var notifications = await context.Notifications.Where(notification => ids.Contains(notification.Id)).ToListAsync();
+        var notifications = await context.Notifications!.Where(notification => ids.Contains(notification.Id)).ToListAsync();
 
         foreach (var notification in notifications)
         {
             notification.Status = true;
         }
-
-        context.Notifications.Update(notification);
         await context.SaveChangesAsync();
     }
 
