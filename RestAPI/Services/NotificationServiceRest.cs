@@ -13,7 +13,7 @@ public class NotificationServiceRest : INotificationsService
         this.notificationDao = notificationDao;
     }
     
-    public async void UpdateNotificationAsync(string id)
+    public async Task UpdateNotificationAsync(string id)
     {
         await notificationDao.UpdateNotificationAsync(id);
     }

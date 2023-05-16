@@ -15,12 +15,12 @@ public class NotificationsController : ControllerBase
         this.notificationService = notificationService;
     }
 
-    [HttpPut("notifications")]
-    public async Task<IActionResult> UpdateNotification([FromBody]string id)
+    [HttpPut]
+    public async Task<IActionResult> UpdateNotification([FromQuery]string id)
     {
         try
         {
-            notificationService.UpdateNotificationAsync(id);
+            await notificationService.UpdateNotificationAsync(id);
             return Ok();
         }
         catch (Exception e)
@@ -30,7 +30,7 @@ public class NotificationsController : ControllerBase
         }
     }
 
-    [HttpGet("notifications")]
+    [HttpGet]
     public async Task<ActionResult<ICollection<Notification>>> GetAllNotifications()
     {
         try
