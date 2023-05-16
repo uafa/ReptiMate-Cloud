@@ -12,7 +12,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         this.measurementsDao = measurementsDao;
     }
 
-    public void SendMeasurements(string data)
+    public async Task SendMeasurementsAsync(string data)
     {
         var measurements = new Measurements();
 
@@ -24,7 +24,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         measurements.Co2 = GetCO2(data);
         measurements.Humidity = GetHumidity(data);
 
-        measurementsDao.CreateMeasurementsAsync(measurements);
+        await measurementsDao.CreateMeasurementsAsync(measurements);
     }
 
 
