@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System.Data;
+using Model;
 using RestDAOs;
 
 namespace ReptiMate_Cloud.Services;
@@ -29,6 +30,16 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
         await Co2BoundaryCheckAsync(measure, boundaries);
 
         return measure;
+    }
+    
+    public async Task<ICollection<Measurements>> GetAllMeasurementsAsync(DateTime dateFrom, DateTime dateTo)
+    {
+        var measurements = await measurementsDao.GetAllMeasurementsAsync(dateFrom, dateTo);
+        if (measurements == null)
+        {
+            throw new Exception("No measurements found");
+        }
+        return measurements;
     }
     
     private async Task HumidityBoundaryCheckAsync(Measurements measurements, TerrariumBoundaries boundaries)
@@ -134,5 +145,4 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
                 await notificationDao.CreateNotificationAsync(notification);
             }
         }
-    
 }
