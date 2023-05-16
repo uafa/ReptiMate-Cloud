@@ -1,15 +1,15 @@
 ﻿using Model;
-using Repository.DAO;
+using RestDAOs;
 
 namespace ReptiMate_Cloud.Services;
 
 public class MeasurementsServiceRest : IMeasurementsServiceRest
 {
-    private IMeasurementsDAO measurementsDao;
-    private ITerrariumDAO terrariumDao;
-    private INotificationDAO notificationDao;
+    private IRestMeasurementsDAO measurementsDao;
+    private IRestTerrariumDAO terrariumDao;
+    private IRestNotificationDAO notificationDao;
 
-    public MeasurementsServiceRest(IMeasurementsDAO measurementsDao, ITerrariumDAO terrariumDao, INotificationDAO notificationDao)
+    public MeasurementsServiceRest(IRestMeasurementsDAO measurementsDao, IRestTerrariumDAO terrariumDao, IRestNotificationDAO notificationDao)
     {
         this.measurementsDao = measurementsDao;
         this.terrariumDao = terrariumDao;

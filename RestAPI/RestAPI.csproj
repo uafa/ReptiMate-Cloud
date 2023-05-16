@@ -18,7 +18,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Repository\Repository.csproj" />
+      <ProjectReference Include="..\RestDAOs\RestDAOs.csproj" />
       <ProjectReference Include="..\WebSocket\WebSocket.csproj" />
+      <ProjectReference Include="..\WSDAOs\WSDAOs.csproj" />
     </ItemGroup>
 
     <ItemGroup>

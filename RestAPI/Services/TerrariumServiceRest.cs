@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Model;
-using Repository.DAO;
+using RestDAOs;
 
 namespace ReptiMate_Cloud.Services;
 
 public class TerrariumServiceRest : ITerrariumServiceRest
 {
-    private ITerrariumDAO terrariumDao;
+    private IRestTerrariumDAO terrariumDao;
 
-    public TerrariumServiceRest(ITerrariumDAO terrariumDao)
+    public TerrariumServiceRest(IRestTerrariumDAO terrariumDao)
     {
         this.terrariumDao = terrariumDao;
     }

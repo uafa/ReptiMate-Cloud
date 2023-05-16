@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket", "WebSocket\WebS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{F110DE47-5626-4B61-8961-7CB6B2E0C0C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestDAOs", "RestDAOs\RestDAOs.csproj", "{DAFE4E10-5832-4BE6-886C-2300D7A9AFDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSDAOs", "WSDAOs\WSDAOs.csproj", "{7DC5E706-B25F-4A95-9AE1-54F7411129E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{F110DE47-5626-4B61-8961-7CB6B2E0C0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F110DE47-5626-4B61-8961-7CB6B2E0C0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F110DE47-5626-4B61-8961-7CB6B2E0C0C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAFE4E10-5832-4BE6-886C-2300D7A9AFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFE4E10-5832-4BE6-886C-2300D7A9AFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFE4E10-5832-4BE6-886C-2300D7A9AFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFE4E10-5832-4BE6-886C-2300D7A9AFDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC5E706-B25F-4A95-9AE1-54F7411129E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC5E706-B25F-4A95-9AE1-54F7411129E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC5E706-B25F-4A95-9AE1-54F7411129E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC5E706-B25F-4A95-9AE1-54F7411129E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

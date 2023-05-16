@@ -1,13 +1,13 @@
 ﻿using Model;
-using Repository.DAO;
+using WSDAOs;
 
 namespace WebSocket.Services;
 
 public class MeasurementsServiceWS : IMeasurementsServiceWS
 {
-    private readonly IMeasurementsDAO measurementsDao;
+    private readonly IWSMeasurementsDAO measurementsDao;
 
-    public MeasurementsServiceWS(IMeasurementsDAO measurementsDao)
+    public MeasurementsServiceWS(IWSMeasurementsDAO measurementsDao)
     {
         this.measurementsDao = measurementsDao;
     }
