@@ -16,6 +16,8 @@ class Program
 
         services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
         services.AddScoped<IWSMeasurementsDAO, WSMeasurementsDAO>();
+        services.AddScoped<IWSNotificationDAO, WSNotificationDAO>();
+        services.AddScoped<IWSBoundariesDAO, WSBoundariesDAO>();
         services.AddDbContext<DatabaseContext>();
 
         var serviceProvider = services.BuildServiceProvider();
