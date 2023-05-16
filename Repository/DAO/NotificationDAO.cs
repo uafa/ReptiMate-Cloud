@@ -26,7 +26,7 @@ public class NotificationDAO : INotificationDAO
 
     public async Task<ICollection<Notification>> GetNotificationsAsync()
     {
-        List<Notification> notifications = context.Notifications!.ToList();
+        List<Notification> notifications = context.Notifications!.OrderBy(notification => notification.DateTime).ToList();
 
         return notifications;
     }

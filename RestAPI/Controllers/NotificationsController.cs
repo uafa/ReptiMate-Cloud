@@ -21,6 +21,7 @@ public class NotificationsController : ControllerBase
         try
         {
             await notificationService.UpdateNotificationAsync(id);
+            Console.WriteLine("heeereeeeeee");
             return Ok();
         }
         catch (Exception e)
