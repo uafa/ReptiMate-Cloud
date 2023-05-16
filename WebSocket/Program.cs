@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Repository;
-using Repository.DAO;
 using WebSocket.Services;
+using WSDAOs;
 
 class Program
 {
@@ -15,7 +15,7 @@ class Program
         IServiceCollection services = new ServiceCollection();
 
         services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
-        services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
+        services.AddScoped<IWSMeasurementsDAO, WSMeasurementsDAO>();
         services.AddDbContext<DatabaseContext>();
 
         var serviceProvider = services.BuildServiceProvider();
