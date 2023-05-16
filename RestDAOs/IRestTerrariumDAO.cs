@@ -1,8 +1,8 @@
 ﻿using Model;
 
-namespace Repository.DAO;
+namespace RestDAOs;
 
-public interface ITerrariumDAO
+public interface IRestTerrariumDAO
 {
     public Task<TerrariumLimits> UpdateTerrariumLimitsAsync(TerrariumLimits terrariumLimits);
     public Task<TerrariumLimits> GetTerrariumLimitsAsync();

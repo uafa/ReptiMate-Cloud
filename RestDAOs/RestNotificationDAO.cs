@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
 using Model;
+using Repository;
 
-namespace Repository.DAO;
+namespace RestDAOs;
 
-public class NotificationDAO : INotificationDAO
+public class RestNotificationDAO : IRestNotificationDAO
 {
     private readonly DatabaseContext context;
 
-    public NotificationDAO(DatabaseContext context)
+    public RestNotificationDAO(DatabaseContext context)
     {
         this.context = context;
     }
@@ -22,6 +22,7 @@ public class NotificationDAO : INotificationDAO
             notification.Status = true;
         }
 
+        context.Notifications.Update(notification);
         await context.SaveChangesAsync();
     }
 
@@ -41,7 +42,7 @@ public class NotificationDAO : INotificationDAO
         }
         catch(Exception e)
         {
-           Console.WriteLine("Exception" + e); 
+            Console.WriteLine("Exception" + e); 
         }
     }
 }

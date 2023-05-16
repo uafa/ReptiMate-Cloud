@@ -1,8 +1,8 @@
 ﻿using Model;
 
-namespace Repository.DAO;
+namespace RestDAOs;
 
-public interface INotificationDAO
+public interface IRestNotificationDAO
 {
     public Task UpdateNotificationAsync(List<string> idList);
     public Task<ICollection<Notification>> GetNotificationsAsync();

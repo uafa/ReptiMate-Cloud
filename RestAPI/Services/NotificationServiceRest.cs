@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Model;
-using Repository.DAO;
+using RestDAOs;
 
 namespace ReptiMate_Cloud.Services;
 
 public class NotificationServiceRest : INotificationsService
 {
-    private INotificationDAO notificationDao;
+    private IRestNotificationDAO notificationDao;
 
-    public NotificationServiceRest(INotificationDAO notificationDao)
+    public NotificationServiceRest(IRestNotificationDAO notificationDao)
     {
         this.notificationDao = notificationDao;
     }

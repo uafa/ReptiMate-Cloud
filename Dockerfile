@@ -8,6 +8,8 @@ WORKDIR /src
 COPY ["RestAPI/RestAPI.csproj", "RestAPI/"]
 COPY ["Repository/Repository.csproj", "Repository/"]
 COPY ["WebSocket/WebSocket.csproj", "WebSocket/"]
+COPY ["WSDAOs/WSDAOs.csproj", "WSDAOs/"]
+COPY ["RestDAOs/RestDAOs.csproj", "RestDAOs/"]
 RUN dotnet restore "RestAPI/RestAPI.csproj"
 COPY . .
 WORKDIR "/src/RestAPI"
