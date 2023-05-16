@@ -10,11 +10,13 @@
 
     <ItemGroup>
         <PackageReference Include="Google.Apis.Auth" Version="1.60.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
         <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.30.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
