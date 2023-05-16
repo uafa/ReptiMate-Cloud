@@ -42,8 +42,6 @@ public class WebSocketClient : IWebSocketClient
         while (_socket.State == WebSocketState.Open)
         {
             var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-            TerrariumLimits possibleNewLimits;
             
             if (result.MessageType == WebSocketMessageType.Close)
             {
@@ -66,7 +64,7 @@ public class WebSocketClient : IWebSocketClient
                 }
             }
 
-            possibleNewLimits = await terrariumService.GetTerrariumLimitsAsync();
+            TerrariumLimits possibleNewLimits = await terrariumService.GetTerrariumLimitsAsync();
 
             Console.WriteLine("Possible new limits: Max: " + possibleNewLimits.TemperatureLimitMax + " Min: " +
                               possibleNewLimits.TemperatureLimitMin);
