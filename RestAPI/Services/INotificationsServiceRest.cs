@@ -5,6 +5,6 @@ namespace ReptiMate_Cloud.Services;
 
 public interface INotificationsService
 {
-    Task UpdateNotificationAsync(string id);
+    Task UpdateNotificationAsync(List<Guid> ids);
     Task<ICollection<Notification>> GetAllNotificationsAsync();
 }

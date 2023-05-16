@@ -1,4 +1,5 @@
-﻿using Model;
+using Microsoft.EntityFrameworkCore;
+using Model;
 using Repository;
 
 namespace RestDAOs;
@@ -12,22 +13,20 @@ public class RestNotificationDAO : IRestNotificationDAO
         this.context = context;
     }
     
-    public async Task UpdateNotificationAsync(string id)
+    public async Task UpdateNotificationAsync(List<Guid> ids)
     {
-        Notification? notification = await context.Notifications!.FindAsync(Guid.Parse(id));
-        if (notification == null)
-        {
-            throw new Exception($"Notification with {id} not found");
-        }
-        notification.Status = true;
+        var notifications = await context.Notifications!.Where(notification => ids.Contains(notification.Id)).ToListAsync();
 
-        context.Notifications.Update(notification);
+        foreach (var notification in notifications)
+        {
+            notification.Status = true;
+        }
         await context.SaveChangesAsync();
     }
 
     public async Task<ICollection<Notification>> GetNotificationsAsync()
     {
-        List<Notification> notifications = context.Notifications!.ToList();
+        List<Notification> notifications = await context.Notifications!.OrderBy(notification => notification.DateTime).ToListAsync();
 
         return notifications;
     }
