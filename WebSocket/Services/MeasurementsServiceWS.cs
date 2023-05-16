@@ -1,5 +1,5 @@
 ﻿using Model;
-using Repository.DAO;
+using WSDAOs;
 
 namespace WebSocket.Services;
 

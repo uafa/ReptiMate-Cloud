@@ -1,13 +1,13 @@
 ﻿using Model;
-using Repository.DAO;
 using WebSocket.Gateway;
+using WSDAOs;
 
 namespace WebSocket.Services;
 
 public class TerrariumServiceWS : ITerrariumServiceWS
 {
-    private readonly ITerrariumDAO terrariumDao;
-    public TerrariumServiceWS(ITerrariumDAO terrariumDao)
+    private readonly IWSTerrariumDAO terrariumDao;
+    public TerrariumServiceWS(IWSTerrariumDAO terrariumDao)
     {
         this.terrariumDao = terrariumDao;
     }

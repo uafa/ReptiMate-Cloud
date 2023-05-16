@@ -1,5 +1,6 @@
 ﻿using System.Net.WebSockets;
 using System.Text;
+using Model;
 using Newtonsoft.Json.Linq;
 using WebSocket;
 using WebSocket.Gateway;
@@ -10,12 +11,14 @@ public class WebSocketClient : IWebSocketClient
     private readonly Uri _url;
     private ClientWebSocket _socket;
     private readonly IMeasurementsServiceWS measurementsService;
+    private readonly ITerrariumServiceWS terrariumService;
     private DataConvertor dataConvertor;
 
-    public WebSocketClient(string url, IMeasurementsServiceWS measurementsService)
+    public WebSocketClient(string url, IMeasurementsServiceWS measurementsService, ITerrariumServiceWS terrariumService)
     {
         _url = new Uri(url);
         this.measurementsService = measurementsService;
+        this.terrariumService = terrariumService;
         dataConvertor = new DataConvertor();
     }
 
@@ -32,11 +35,16 @@ public class WebSocketClient : IWebSocketClient
     {
         var buffer = new byte[1024];
 
+        var currentLimits = await terrariumService.GetTerrariumLimitsAsync();
+
+        await SendConfigurationAsync(currentLimits);
+        
         while (_socket.State == WebSocketState.Open)
         {
             var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-
+            TerrariumLimits possibleNewLimits;
+            
             if (result.MessageType == WebSocketMessageType.Close)
             {
                 await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
@@ -46,69 +54,73 @@ public class WebSocketClient : IWebSocketClient
                 var data = Encoding.UTF8.GetString(buffer, 0, result.Count);
                 Console.WriteLine($" WebSocketClient: Received data: {data}");
 
-                    // Handle incoming data
+                // Handle incoming data
 
-                    var jObject = JObject.Parse(data);
+                var jObject = JObject.Parse(data);
 
-                    if (jObject["cmd"].Value<string>() == "rx")
-                    {
-                        Console.WriteLine($" WebSocketClient: Received data: ");
-                        var convertedData = dataConvertor.GetData(data);
-                        await measurementsService.SendMeasurementsAsync(convertedData);
-                    }
-                }
-                
-                possibleNewLimits = await terrariumService.GetTerrariumLimitsAsync();
-                
-                Console.WriteLine("Possible new limits: Max: " + possibleNewLimits.TemperatureLimitMax + " Min: " +  possibleNewLimits.TemperatureLimitMin);
-
-                
-                
-                if (CompareLimits(currentLimits, possibleNewLimits))
+                if (jObject["cmd"].Value<string>() == "rx")
                 {
-                    Console.WriteLine("Current Limits: Max: " + currentLimits.TemperatureLimitMax + " Min: " + currentLimits.TemperatureLimitMin);
-                    
-                    await SendConfigurationAsync(possibleNewLimits);
-
-                    Console.WriteLine("Possible new limits sent: Max: " + possibleNewLimits.TemperatureLimitMax + " Min: " + possibleNewLimits.TemperatureLimitMin);
-
-                    currentLimits = possibleNewLimits;
-                    
-                    Console.WriteLine("Current Limits: Max: " + currentLimits.TemperatureLimitMax + " Min: " + currentLimits.TemperatureLimitMin);
-
+                    Console.WriteLine($" WebSocketClient: Received data: ");
+                    var convertedData = dataConvertor.GetData(data);
+                    await measurementsService.SendMeasurementsAsync(convertedData);
                 }
             }
-        }
 
-        private bool CompareLimits(TerrariumLimits currentLimits, TerrariumLimits possibleNewLimits)
-        {
-            Console.WriteLine("Current limits. Min: " + currentLimits.TemperatureLimitMin + " Max: " + currentLimits.TemperatureLimitMax);
-            Console.WriteLine("Possible new limits. Min: " + possibleNewLimits.TemperatureLimitMin + " Max: " + possibleNewLimits.TemperatureLimitMax);
-            return currentLimits.TemperatureLimitMax != possibleNewLimits.TemperatureLimitMax ||
-                   currentLimits.TemperatureLimitMin != possibleNewLimits.TemperatureLimitMin;
-        }
+            possibleNewLimits = await terrariumService.GetTerrariumLimitsAsync();
+
+            Console.WriteLine("Possible new limits: Max: " + possibleNewLimits.TemperatureLimitMax + " Min: " +
+                              possibleNewLimits.TemperatureLimitMin);
 
 
-        public async Task SendConfigurationAsync(TerrariumLimits terrariumLimits)
-        {
-            if (_socket.State != WebSocketState.Open)
-                throw new Exception("WebSocket connection has not been established");
-            
-            Console.WriteLine("Preparing to send data.");
-            
-            var terrariumLimitsInHexa = dataConvertor.ConvertTemperatureLimitsToHex(terrariumLimits);
-            
-            Console.WriteLine("Converted data to hex: " + terrariumLimitsInHexa);
-            
-            var buffer = Encoding.UTF8.GetBytes(terrariumLimitsInHexa);
-            
-            await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
-                CancellationToken.None);
-            Console.WriteLine("Data sent.");
-        }
+            if (CompareLimits(currentLimits, possibleNewLimits))
+            {
+                Console.WriteLine("Current Limits: Max: " + currentLimits.TemperatureLimitMax + " Min: " +
+                                  currentLimits.TemperatureLimitMin);
 
-        public async Task CloseAsync()
-        {
-            await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                await SendConfigurationAsync(possibleNewLimits);
+
+                Console.WriteLine("Possible new limits sent: Max: " + possibleNewLimits.TemperatureLimitMax + " Min: " +
+                                  possibleNewLimits.TemperatureLimitMin);
+
+                currentLimits = possibleNewLimits;
+
+                Console.WriteLine("Current Limits: Max: " + currentLimits.TemperatureLimitMax + " Min: " +
+                                  currentLimits.TemperatureLimitMin);
+            }
         }
     }
+
+    private bool CompareLimits(TerrariumLimits currentLimits, TerrariumLimits possibleNewLimits)
+    {
+        Console.WriteLine("Current limits. Min: " + currentLimits.TemperatureLimitMin + " Max: " +
+                          currentLimits.TemperatureLimitMax);
+        Console.WriteLine("Possible new limits. Min: " + possibleNewLimits.TemperatureLimitMin + " Max: " +
+                          possibleNewLimits.TemperatureLimitMax);
+        return currentLimits.TemperatureLimitMax != possibleNewLimits.TemperatureLimitMax ||
+               currentLimits.TemperatureLimitMin != possibleNewLimits.TemperatureLimitMin;
+    }
+
+
+    public async Task SendConfigurationAsync(TerrariumLimits terrariumLimits)
+    {
+        if (_socket.State != WebSocketState.Open)
+            throw new Exception("WebSocket connection has not been established");
+
+        Console.WriteLine("Preparing to send data.");
+
+        var terrariumLimitsInHexa = dataConvertor.ConvertTemperatureLimitsToHex(terrariumLimits);
+
+        Console.WriteLine("Converted data to hex: " + terrariumLimitsInHexa);
+
+        var buffer = Encoding.UTF8.GetBytes(terrariumLimitsInHexa);
+
+        await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
+            CancellationToken.None);
+        Console.WriteLine("Data sent.");
+    }
+
+    public async Task CloseAsync()
+    {
+        await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+    }
+}

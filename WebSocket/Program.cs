@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Repository;
-using Repository.DAO;
 using WebSocket.Services;
+using WSDAOs;
 
 class Program
 {
@@ -19,8 +19,6 @@ class Program
         services.AddScoped<IWSNotificationDAO, WSNotificationDAO>();
         services.AddScoped<IWSBoundariesDAO, WSBoundariesDAO>();
         services.AddScoped<ITerrariumServiceWS, TerrariumServiceWS>();
-        services.AddScoped<IMeasurementsDAO, MeasurementsDAO>();
-        services.AddScoped<ITerrariumDAO, TerrariumDAO>();
         services.AddDbContext<DatabaseContext>();
 
         var serviceProvider = services.BuildServiceProvider();
