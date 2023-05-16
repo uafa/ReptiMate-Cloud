@@ -13,10 +13,9 @@ public class RestNotificationDAO : IRestNotificationDAO
         this.context = context;
     }
     
-    public async Task UpdateNotificationAsync(List<string> ids)
+    public async Task UpdateNotificationAsync(List<Guid> ids)
     {
-        var localIds = ids.Select(id => Guid.Parse(id));
-        var notifications = await context.Notifications!.Where(notification => localIds.Contains(notification.Id)).ToListAsync();
+        var notifications = await context.Notifications!.Where(notification => ids.Contains(notification.Id)).ToListAsync();
 
         foreach (var notification in notifications)
         {
