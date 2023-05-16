@@ -16,6 +16,8 @@ public class WSTerrariumDAO : IWSTerrariumDAO
     public async Task<TerrariumLimits> GetTerrariumLimitsAsync()
     {
         TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
+        context.ChangeTracker.Clear();
+        // delete the cache from the ChangeTracker
 
         if (limits == null)
             throw new Exception("No limits found");
