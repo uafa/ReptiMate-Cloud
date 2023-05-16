@@ -42,21 +42,7 @@ public class MeasurementsServiceRestTests
 
         _measurementsDaoMock.Setup(mock => mock.GetLatestMeasurementAsync())
             .ReturnsAsync(expectedMeasurement);
-
-        var expectedBoundaries = new TerrariumBoundaries
-        {
-            Id = Guid.NewGuid(),
-            TemperatureBoundaryMin = 20.0,
-            TemperatureBoundaryMax = 30.0,
-            HumidityBoundaryMin = 40.0,
-            HumidityBoundaryMax = 70.0,
-            CO2BoundaryMin = 500,
-            CO2BoundaryMax = 1000
-        };
-
-        _terrariumDaoMock.Setup(mock => mock.GetTerrariumBoundariesAsync())
-            .ReturnsAsync(expectedBoundaries);
-
+        
         // Act
         var result = await _measurementsService.GetLatestMeasurementAsync();
 
