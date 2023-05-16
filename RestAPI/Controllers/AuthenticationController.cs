@@ -8,7 +8,7 @@ using ReptiMate_Cloud.Services.Auth;
 namespace ReptiMate_Cloud.Services;
 
 //[Authorize(AuthenticationSchemes = "Bearer")]
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class AuthenticationController : ControllerBase
 {
