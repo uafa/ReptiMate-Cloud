@@ -16,12 +16,11 @@ public class NotificationsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateNotification([FromQuery]string id)
+    public async Task<IActionResult> UpdateNotification([FromQuery]List<string> idList)
     {
         try
         {
-            await notificationService.UpdateNotificationAsync(id);
-            Console.WriteLine("heeereeeeeee");
+            await notificationService.UpdateNotificationAsync(idList);
             return Ok();
         }
         catch (Exception e)

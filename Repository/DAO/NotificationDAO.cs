@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 
 namespace Repository.DAO;
 
@@ -11,22 +12,22 @@ public class NotificationDAO : INotificationDAO
         this.context = context;
     }
     
-    public async Task UpdateNotificationAsync(string id)
+    public async Task UpdateNotificationAsync(List<string> idList)
     {
-        Notification? notification = await context.Notifications!.FindAsync(Guid.Parse(id));
-        if (notification == null)
-        {
-            throw new Exception($"Notification with {id} not found");
-        }
-        notification.Status = true;
+        var ids = idList.Select(id => Guid.Parse(id));
+        var notifications = await context.Notifications.Where(notification => ids.Contains(notification.Id)).ToListAsync();
 
-        context.Notifications.Update(notification);
+        foreach (var notification in notifications)
+        {
+            notification.Status = true;
+        }
+
         await context.SaveChangesAsync();
     }
 
     public async Task<ICollection<Notification>> GetNotificationsAsync()
     {
-        List<Notification> notifications = context.Notifications!.OrderBy(notification => notification.DateTime).ToList();
+        List<Notification> notifications = await context.Notifications!.OrderBy(notification => notification.DateTime).ToListAsync();
 
         return notifications;
     }
