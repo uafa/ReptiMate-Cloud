@@ -19,8 +19,6 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
 
         if (measure == null) throw new Exception("Not found");
 
-        TerrariumBoundaries boundaries = await terrariumDao.GetTerrariumBoundariesAsync();
-        
         return measure;
     }
     
