@@ -23,7 +23,7 @@ public class MeasurementsServiceRestTests
     [Fact]
     public async Task GetLatestMeasurementAsync_ValidMeasurement_ReturnsMeasurement()
     {
-        
+        //Arrange
         var expectedMeasurement = new Measurements
         {
             Id = Guid.NewGuid(),
@@ -80,6 +80,53 @@ public class MeasurementsServiceRestTests
         await Assert.ThrowsAsync<Exception>(() => _measurementsService.GetLatestMeasurementAsync());
     }
     
+    
+    [Fact]
+    public async Task GetAllMeasurementsAsync_NoMeasurementsFound_ThrowsException()
+    {
+        // Arrange
+        DateTime dateFrom = new DateTime(2023, 1, 1);
+        DateTime dateTo = new DateTime(2023, 12, 31);
+    
+        _measurementsDaoMock.Setup(mock => mock.GetAllMeasurementsAsync(dateFrom, dateTo))
+            .ReturnsAsync((IList<Measurements>)null);
+    
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => _measurementsService.GetAllMeasurementsAsync(dateFrom, dateTo));
+    }
+    
+    
+    [Fact]
+    public async Task GetAllMeasurementsAsync_ValidDates_ReturnsMeasurements()
+    {
+        // Arrange
+        var dateFrom = new DateTime(2023, 1, 1);
+        var dateTo = new DateTime(2023, 1, 31);
+
+        // Create a list of measurements for the test scenario
+        var measurements = new List<Measurements>
+        {
+            new Measurements { Id = Guid.NewGuid(), Temperature = 25.5, Humidity = 60.2, Co2 = 400, DateTime = new DateTime(2023, 1, 5) },
+            new Measurements { Id = Guid.NewGuid(), Temperature = 26.3, Humidity = 61.7, Co2 = 420, DateTime = new DateTime(2023, 1, 10) },
+            new Measurements { Id = Guid.NewGuid(), Temperature = 27.1, Humidity = 63.5, Co2 = 410, DateTime = new DateTime(2023, 1, 15) }
+        };
+
+        // Create a mock of the IRestMeasurementsDAO
+        var measurementsDaoMock = new Mock<IRestMeasurementsDAO>();
+
+        // Set up the mock behavior for GetAllMeasurementsAsync
+        measurementsDaoMock.Setup(dao => dao.GetAllMeasurementsAsync(dateFrom, dateTo))
+            .ReturnsAsync(measurements.Where(m => m.DateTime >= dateFrom && m.DateTime <= dateTo).ToList());
+
+        var measurementsService = new MeasurementsServiceRest(measurementsDaoMock.Object);
+
+        // Act
+        var result = await measurementsService.GetAllMeasurementsAsync(dateFrom, dateTo);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(3, result.Count); // Assert the expected number of measurements
+    }
 }
     
     
