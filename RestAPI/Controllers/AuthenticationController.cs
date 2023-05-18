@@ -38,7 +38,7 @@ public class AuthenticationController : ControllerBase
                     "756576377617-0t412r5o9fepmnsso6utp40vgbgdfipg.apps.googleusercontent.com"), //TODO: hide to secure place
                 new KeyValuePair<string, string>("client_secret",
                     "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"), //TODO: hide to secure place
-                new KeyValuePair<string, string>("redirect_uri", "http://localhost:4200"),
+                new KeyValuePair<string, string>("redirect_uri", "https://reptimate.netlify.app"),
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
             });
 
