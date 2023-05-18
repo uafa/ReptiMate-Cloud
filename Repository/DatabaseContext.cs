@@ -37,7 +37,6 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<TerrariumLimits>().HasKey(terrariumLimits => terrariumLimits.Id);
         modelBuilder.Entity<Terrarium>().HasKey(terrarium => terrarium.name);
         modelBuilder.Entity<Notification>().HasKey(notification => notification.Id);
-        modelBuilder.Entity<Notification>().HasIndex(notification => notification.DateTime);
         modelBuilder.Entity<Account>().HasKey(account => account.Email);
     }
 }
