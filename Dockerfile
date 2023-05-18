@@ -19,17 +19,9 @@ RUN dotnet build "RestAPI.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "RestAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Build the WebSocket project
-FROM build AS build-websocket
-WORKDIR /src/WebSocket
-RUN dotnet build "WebSocket.csproj" -c Release -o /app/build
-
-FROM publish AS final
+FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-# Copy the WebSocket project output to the final container
-COPY --from=build-websocket /app/build /app/WebSocket
 
 # Set the entrypoint for the container
 ENTRYPOINT ["dotnet", "RestAPI.dll"]

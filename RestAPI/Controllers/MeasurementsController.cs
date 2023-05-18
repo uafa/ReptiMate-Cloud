@@ -17,6 +17,7 @@ public class MeasurementsController : ControllerBase
         this.measurementsServiceRest = measurementsServiceRest;
     }
 
+    [AllowAnonymous]
     [HttpGet("latest")]
     public async Task<ActionResult<Measurements>> GetLatestMeasurement()
     {
