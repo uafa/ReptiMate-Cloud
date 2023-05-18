@@ -7,13 +7,10 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
 {
     private IRestMeasurementsDAO measurementsDao;
     private IRestTerrariumDAO terrariumDao;
-    private IRestNotificationDAO notificationDao;
 
-    public MeasurementsServiceRest(IRestMeasurementsDAO measurementsDao, IRestTerrariumDAO terrariumDao, IRestNotificationDAO notificationDao)
+    public MeasurementsServiceRest(IRestMeasurementsDAO measurementsDao)
     {
         this.measurementsDao = measurementsDao;
-        this.terrariumDao = terrariumDao;
-        this.notificationDao = notificationDao;
     }
 
     public async Task<Measurements> GetLatestMeasurementAsync()
@@ -24,5 +21,14 @@ public class MeasurementsServiceRest : IMeasurementsServiceRest
 
         return measure;
     }
-
+    
+    public async Task<ICollection<Measurements>> GetAllMeasurementsAsync(DateTime dateFrom, DateTime dateTo)
+    {
+        var measurements = await measurementsDao.GetAllMeasurementsAsync(dateFrom, dateTo);
+        if (measurements == null)
+        {
+            throw new Exception("No measurements found");
+        }
+        return measurements;
+    }
 }
