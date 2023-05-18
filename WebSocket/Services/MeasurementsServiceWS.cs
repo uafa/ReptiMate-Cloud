@@ -15,7 +15,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         this.boundariesDao = boundariesDao;
     }
 
-    public async Task SendMeasurements(string data)
+    public async Task SendMeasurementsAsync(string data)
     {
         var measurements = new Measurements();
 
@@ -37,7 +37,8 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         await BoundaryCheckAsync("CO2", measurements.Co2, boundaries.CO2BoundaryMin,
             boundaries.CO2BoundaryMax);
     }
-    
+
+
     private double GetTemperature(string data)
     {
         string tempHexa = data.Substring(0, 4);

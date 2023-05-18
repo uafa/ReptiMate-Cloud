@@ -18,7 +18,6 @@ public class RestTerrariumDAO : IRestTerrariumDAO
         TerrariumLimits? limits = await context.TerrariumLimits.FirstOrDefaultAsync();
         limits!.TemperatureLimitMax = terrariumLimits.TemperatureLimitMax;
         limits!.TemperatureLimitMin = terrariumLimits.TemperatureLimitMin;
-
         context.TerrariumLimits.Update(limits);
         await context.SaveChangesAsync();
         return limits;
