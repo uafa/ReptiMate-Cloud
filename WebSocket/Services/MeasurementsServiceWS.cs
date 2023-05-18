@@ -39,7 +39,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
     }
 
 
-    private double GetTemperature(string data)
+    public double GetTemperature(string data)
     {
         string tempHexa = data.Substring(0, 4);
 
@@ -49,7 +49,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         return tempDec / 10D;
     }
 
-    private double GetHumidity(string data)
+    public double GetHumidity(string data)
     {
         string humidityHexa = data.Substring(4, 4);
 
@@ -58,7 +58,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         return humidityDec;
     }
 
-    private double GetCO2(string data)
+    public double GetCO2(string data)
     {
         string co2Hexa = data.Substring(8, 4);
 
@@ -67,9 +67,9 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
 
         return co2Dec;
     }
-    
-    
-    private async Task BoundaryCheckAsync(string text, double value, double min, double max)
+
+
+    public async Task BoundaryCheckAsync(string text, double value, double min, double max)
     {
         string? message = null;
 
