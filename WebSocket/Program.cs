@@ -19,6 +19,7 @@ class Program
         services.AddScoped<IWSNotificationDAO, WSNotificationDAO>();
         services.AddScoped<IWSBoundariesDAO, WSBoundariesDAO>();
         services.AddScoped<ITerrariumServiceWS, TerrariumServiceWS>();
+        services.AddScoped<IWSTerrariumDAO, WSTerrariumDAO>();
         services.AddDbContext<DatabaseContext>();
 
         var serviceProvider = services.BuildServiceProvider();

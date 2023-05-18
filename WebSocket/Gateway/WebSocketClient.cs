@@ -90,10 +90,6 @@ public class WebSocketClient : IWebSocketClient
 
     private bool CompareLimits(TerrariumLimits currentLimits, TerrariumLimits possibleNewLimits)
     {
-        Console.WriteLine("Current limits. Min: " + currentLimits.TemperatureLimitMin + " Max: " +
-                          currentLimits.TemperatureLimitMax);
-        Console.WriteLine("Possible new limits. Min: " + possibleNewLimits.TemperatureLimitMin + " Max: " +
-                          possibleNewLimits.TemperatureLimitMax);
         return currentLimits.TemperatureLimitMax != possibleNewLimits.TemperatureLimitMax ||
                currentLimits.TemperatureLimitMin != possibleNewLimits.TemperatureLimitMin;
     }
@@ -109,8 +105,16 @@ public class WebSocketClient : IWebSocketClient
         var terrariumLimitsInHexa = dataConvertor.ConvertTemperatureLimitsToHex(terrariumLimits);
 
         Console.WriteLine("Converted data to hex: " + terrariumLimitsInHexa);
-
-        var buffer = Encoding.UTF8.GetBytes(terrariumLimitsInHexa);
+        
+        var jsonObject = new JObject(
+            new JProperty("cmd", "tx"),
+            new JProperty("EUI", "0004A30B00E7E212"),
+            new JProperty("port", "2"),
+            new JProperty("confirmed", false),
+            new JProperty("data", terrariumLimitsInHexa)
+        );
+        
+        var buffer = Encoding.UTF8.GetBytes(jsonObject.ToString());
 
         await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
             CancellationToken.None);
