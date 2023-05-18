@@ -10,7 +10,7 @@ class Program
         await Start();
     }
 
-    public static async Task Start()
+    private static async Task Start()
     {
         IServiceCollection services = new ServiceCollection();
 
@@ -18,6 +18,8 @@ class Program
         services.AddScoped<IWSMeasurementsDAO, WSMeasurementsDAO>();
         services.AddScoped<IWSNotificationDAO, WSNotificationDAO>();
         services.AddScoped<IWSBoundariesDAO, WSBoundariesDAO>();
+        services.AddScoped<ITerrariumServiceWS, TerrariumServiceWS>();
+        services.AddScoped<IWSTerrariumDAO, WSTerrariumDAO>();
         services.AddDbContext<DatabaseContext>();
 
         var serviceProvider = services.BuildServiceProvider();
@@ -30,7 +32,8 @@ class Program
 
         // url for testing ws://localhost:8080/
         var client = new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUeQAAABFpb3RuZXQudGVyYWNvbS5kayL9sv9it8LFL5jggp-rve4=",
-            serviceProvider.GetRequiredService<IMeasurementsServiceWS>());
+            serviceProvider.GetRequiredService<IMeasurementsServiceWS>(),
+            serviceProvider.GetRequiredService<ITerrariumServiceWS>());
 
         try
         {
