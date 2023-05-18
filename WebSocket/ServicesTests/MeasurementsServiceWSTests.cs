@@ -208,7 +208,38 @@ public class MeasurementsServiceWSTests
                 Times.Once
             );
         }
+        
+        [Fact]
+        public async Task BoundaryCheckAsync_WhenValueIsAboveMax_Creates3Notifications()
+        {
+            // Arrange
+            string text = "Humidity";
+            double value = 80.0;
+            double min = 30.0;
+            double max = 70.0;
 
+            string expectedMessage = $"{text} level is outside of the boundary. The current value is: {value}," +
+                                     $" which is {value - max} higher than the boundary that is: {max}.";
+
+            // Act
+            await _measurementsService.BoundaryCheckAsync(text, value, min, max);
+            await _measurementsService.BoundaryCheckAsync(text, value, min, max);
+            await _measurementsService.BoundaryCheckAsync(text, value, min, max);
+
+            // Assert
+            _notificationDaoMock.Verify(dao =>
+                    dao.CreateNotificationAsync(It.Is<Notification>(n =>
+                        n.Message == expectedMessage &&
+                        n.DateTime <= DateTime.UtcNow &&
+                        !n.Status
+                    )),
+                Times.Exactly(3)
+            );
+        }
+        
+        
+
+    
         [Fact]
         public async Task BoundaryCheckAsync_WhenValueIsWithinBoundaries_DoesNotCreateNotification()
         {
@@ -242,14 +273,10 @@ public class MeasurementsServiceWSTests
         public void GetCO2_ValidHexadecimal_ReturnsCorrectValue()
         {
             // Arrange
-            var measurementsDaoMock = new Mock<IWSMeasurementsDAO>();
-            var notificationDaoMock = new Mock<IWSNotificationDAO>();
-            var boundariesDaoMock = new Mock<IWSBoundariesDAO>();
-            var service = new MeasurementsServiceWS(measurementsDaoMock.Object, notificationDaoMock.Object, boundariesDaoMock.Object);
             string data = "ABCDEF012345"; // Sample data
 
             // Act
-            double co2 = service.GetCO2(data);
+            double co2 = _measurementsService.GetCO2(data);
 
             // Assert
             Assert.Equal(9029, co2);
@@ -259,14 +286,10 @@ public class MeasurementsServiceWSTests
         public void GetHumidity_ValidHexadecimal_ReturnsCorrectValue()
         {
             // Arrange
-            var measurementsDaoMock = new Mock<IWSMeasurementsDAO>();
-            var notificationDaoMock = new Mock<IWSNotificationDAO>();
-            var boundariesDaoMock = new Mock<IWSBoundariesDAO>();
-            var service = new MeasurementsServiceWS(measurementsDaoMock.Object, notificationDaoMock.Object, boundariesDaoMock.Object);
             string data = "ABCDEF012345"; // Sample data
 
             // Act
-            double humidity = service.GetHumidity(data);
+            double humidity = _measurementsService.GetHumidity(data);
 
             // Assert
             double expectedHumidity = 61185;
@@ -277,21 +300,15 @@ public class MeasurementsServiceWSTests
         public void GetTemperature_ValidHexadecimal_ReturnsCorrectValue()
         {
             // Arrange
-            var measurementsDaoMock = new Mock<IWSMeasurementsDAO>();
-            var notificationDaoMock = new Mock<IWSNotificationDAO>();
-            var boundariesDaoMock = new Mock<IWSBoundariesDAO>();
-            var service = new MeasurementsServiceWS(measurementsDaoMock.Object, notificationDaoMock.Object, boundariesDaoMock.Object);
             string data = "ABCDEF012345"; // Sample data
 
             // Act
-            double temperature = service.GetTemperature(data);
+            double temperature = _measurementsService.GetTemperature(data);
 
             // Assert
             double expectedTemperature = 4398;
             //We have 0 because ->  Actual should be 4398.1000000000004
             Assert.Equal(expectedTemperature, temperature,0);
         }
-
-
-    
+        
 }
