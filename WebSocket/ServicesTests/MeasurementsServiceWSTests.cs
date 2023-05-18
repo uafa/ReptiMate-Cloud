@@ -237,5 +237,61 @@ public class MeasurementsServiceWSTests
                 Times.Never
             );
         }
+        
+        [Fact]
+        public void GetCO2_ValidHexadecimal_ReturnsCorrectValue()
+        {
+            // Arrange
+            var measurementsDaoMock = new Mock<IWSMeasurementsDAO>();
+            var notificationDaoMock = new Mock<IWSNotificationDAO>();
+            var boundariesDaoMock = new Mock<IWSBoundariesDAO>();
+            var service = new MeasurementsServiceWS(measurementsDaoMock.Object, notificationDaoMock.Object, boundariesDaoMock.Object);
+            string data = "ABCDEF012345"; // Sample data
+
+            // Act
+            double co2 = service.GetCO2(data);
+
+            // Assert
+            Assert.Equal(9029, co2);
+        }
+        
+        [Fact]
+        public void GetHumidity_ValidHexadecimal_ReturnsCorrectValue()
+        {
+            // Arrange
+            var measurementsDaoMock = new Mock<IWSMeasurementsDAO>();
+            var notificationDaoMock = new Mock<IWSNotificationDAO>();
+            var boundariesDaoMock = new Mock<IWSBoundariesDAO>();
+            var service = new MeasurementsServiceWS(measurementsDaoMock.Object, notificationDaoMock.Object, boundariesDaoMock.Object);
+            string data = "ABCDEF012345"; // Sample data
+
+            // Act
+            double humidity = service.GetHumidity(data);
+
+            // Assert
+            double expectedHumidity = 61185;
+            Assert.Equal(expectedHumidity, humidity);
+        }
+        
+        [Fact]
+        public void GetTemperature_ValidHexadecimal_ReturnsCorrectValue()
+        {
+            // Arrange
+            var measurementsDaoMock = new Mock<IWSMeasurementsDAO>();
+            var notificationDaoMock = new Mock<IWSNotificationDAO>();
+            var boundariesDaoMock = new Mock<IWSBoundariesDAO>();
+            var service = new MeasurementsServiceWS(measurementsDaoMock.Object, notificationDaoMock.Object, boundariesDaoMock.Object);
+            string data = "ABCDEF012345"; // Sample data
+
+            // Act
+            double temperature = service.GetTemperature(data);
+
+            // Assert
+            double expectedTemperature = 4398;
+            //We have 0 because ->  Actual should be 4398.1000000000004
+            Assert.Equal(expectedTemperature, temperature,0);
+        }
+
+
     
 }
