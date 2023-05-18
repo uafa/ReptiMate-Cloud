@@ -42,8 +42,8 @@ public class RestTerrariumDAO : IRestTerrariumDAO
         boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
         boundaries.TemperatureBoundaryMax = terrariumBoundaries.TemperatureBoundaryMax;
         boundaries.TemperatureBoundaryMin = terrariumBoundaries.TemperatureBoundaryMin;
-        boundaries.HumidityBoundaryMax = terrariumBoundaries.HumidityBoundaryMax;
-        boundaries.HumidityBoundaryMin = terrariumBoundaries.HumidityBoundaryMin;
+        boundaries.CO2BoundaryMax = terrariumBoundaries.CO2BoundaryMax;
+        boundaries.CO2BoundaryMin = terrariumBoundaries.CO2BoundaryMin;
 
         context.TerrariumBoundaries.Update(boundaries);
         await context.SaveChangesAsync();
