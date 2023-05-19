@@ -62,8 +62,8 @@ builder.Services.AddScoped<IRestTerrariumDAO, RestTerrariumDAO>();
 
 builder.Services.AddScoped<INotificationsService, NotificationServiceRest>();
 builder.Services.AddScoped<IRestNotificationDAO, RestNotificationDAO>();
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAccountDAO, AccountDAO>();
+builder.Services.AddScoped<IAccountServiceRest, AccountServiceRest>();
+builder.Services.AddScoped<IRestAccountDAO, RestAccountDAO>();
 
 
 builder.Services.AddDbContext<DatabaseContext>();

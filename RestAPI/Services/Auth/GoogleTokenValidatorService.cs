@@ -14,7 +14,7 @@ public class GoogleTokenValidatorService : ISecurityTokenValidator
     public GoogleTokenValidatorService(string clientId)
     {
         this.clientId = clientId;
-        this.tokenHandler = new JwtSecurityTokenHandler();
+        tokenHandler = new JwtSecurityTokenHandler();
     }
     
     public bool CanValidateToken => true;

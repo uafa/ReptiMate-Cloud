@@ -13,12 +13,12 @@ namespace ReptiMate_Cloud.Services;
 public class AuthenticationController : ControllerBase
 {
     private readonly IHttpClientFactory httpClientFactory;
-    private readonly IAccountService accountService;
+    private readonly IAccountServiceRest accountServiceRest;
 
-    public AuthenticationController(IHttpClientFactory httpClientFactory, IAccountService accountService)
+    public AuthenticationController(IHttpClientFactory httpClientFactory, IAccountServiceRest accountServiceRest)
     {
         this.httpClientFactory = httpClientFactory;
-        this.accountService = accountService;
+        this.accountServiceRest = accountServiceRest;
     }
     
     [AllowAnonymous]
@@ -62,7 +62,7 @@ public class AuthenticationController : ControllerBase
                 throw new Exception("Didn't receive data from Google Auth response");
             }
 
-            var account = await accountService.GetAccountAsync(email);
+            var account = await accountServiceRest.GetAccountAsync(email);
 
             if (account == null)
             {
@@ -73,7 +73,7 @@ public class AuthenticationController : ControllerBase
                     LastName = JwtTokenService.GetClaimValueFromJwt("family_name", responseBody.id_token) ?? ""
                 };
 
-                await accountService.RegisterAccountAsync(createdAccount);
+                await accountServiceRest.RegisterAccountAsync(createdAccount);
             }
 
             return Created("Authenticate", responseBody);

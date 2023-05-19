@@ -16,7 +16,7 @@ class Program
 
         services.AddScoped<IMeasurementsServiceWS, MeasurementsServiceWS>();
         services.AddScoped<IWSMeasurementsDAO, WSMeasurementsDAO>();
-        services.AddScoped<IWSNotificationDAO, WSNotificationDAO>();
+        services.AddScoped<IWSNotificationDAO, WSNotificationsDAO>();
         services.AddScoped<IWSBoundariesDAO, WSBoundariesDAO>();
         services.AddScoped<ITerrariumServiceWS, TerrariumServiceWS>();
         services.AddScoped<IWSTerrariumDAO, WSTerrariumDAO>();

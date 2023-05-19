@@ -3,11 +3,11 @@ using Repository;
 
 namespace WSDAOs;
 
-public class WSNotificationDAO : IWSNotificationDAO
+public class WSNotificationsDAO : IWSNotificationDAO
 {
     private readonly DatabaseContext context;
 
-    public WSNotificationDAO(DatabaseContext context)
+    public WSNotificationsDAO(DatabaseContext context)
     {
         this.context = context;
     }
