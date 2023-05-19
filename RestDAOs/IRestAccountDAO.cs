@@ -1,8 +1,8 @@
 ﻿using Model;
 
-namespace ReptiMate_Cloud.Services;
+namespace RestDAOs;
 
-public interface IAccountService
+public interface IRestAccountDAO
 {
     Task<Account?> GetAccountAsync(string email);
     Task RegisterAccountAsync(Account account);

@@ -4,11 +4,11 @@ using Repository;
 
 namespace RestDAOs;
 
-public class AccountDAO : IAccountDAO
+public class RestAccountDAO : IRestAccountDAO
 {
     private readonly DatabaseContext context;
 
-    public AccountDAO(DatabaseContext context)
+    public RestAccountDAO(DatabaseContext context)
     {
         this.context = context;
     }
