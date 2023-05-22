@@ -31,6 +31,17 @@ public class AuthenticationController : ControllerBase
 
             httpClient.BaseAddress = new Uri("https://oauth2.googleapis.com");
 
+            string redirectUri = "";
+            if (dto.IsDevSource)
+            {
+                redirectUri = "http://localhost:4200";
+            }
+            else
+            {
+                redirectUri = "https://reptimate.netlify.app";
+            }
+            
+
             var requestContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("code", dto.Code),
@@ -38,7 +49,7 @@ public class AuthenticationController : ControllerBase
                     "756576377617-0t412r5o9fepmnsso6utp40vgbgdfipg.apps.googleusercontent.com"), //TODO: hide to secure place
                 new KeyValuePair<string, string>("client_secret",
                     "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"), //TODO: hide to secure place
-                new KeyValuePair<string, string>("redirect_uri", "https://reptimate.netlify.app"),
+                new KeyValuePair<string, string>("redirect_uri", redirectUri),
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
             });
 
