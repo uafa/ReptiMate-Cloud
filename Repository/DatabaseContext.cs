@@ -12,6 +12,7 @@ public class DatabaseContext : DbContext
     public DbSet<Terrarium> Terrarium { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Animal> Animals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -38,5 +39,6 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<Terrarium>().HasKey(terrarium => terrarium.name);
         modelBuilder.Entity<Notification>().HasKey(notification => notification.Id);
         modelBuilder.Entity<Account>().HasKey(account => account.Email);
+        modelBuilder.Entity<Animal>().HasKey(account => account.Id);
     }
 }

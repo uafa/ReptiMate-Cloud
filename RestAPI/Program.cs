@@ -56,15 +56,17 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IMeasurementsServiceRest, MeasurementsServiceRest>();
 builder.Services.AddScoped<IRestMeasurementsDAO, RestMeasurementsDAO>();
 
-
 builder.Services.AddScoped<ITerrariumServiceRest, TerrariumServiceRest>();
 builder.Services.AddScoped<IRestTerrariumDAO, RestTerrariumDAO>();
 
 builder.Services.AddScoped<INotificationsService, NotificationServiceRest>();
 builder.Services.AddScoped<IRestNotificationDAO, RestNotificationDAO>();
+
 builder.Services.AddScoped<IAccountServiceRest, AccountServiceRest>();
 builder.Services.AddScoped<IRestAccountDAO, RestAccountDAO>();
 
+builder.Services.AddScoped<IAnimalServiceRest, AnimalServiceRest>();
+builder.Services.AddScoped<IRestAnimalDAO, RestAnimalDAO>();
 
 builder.Services.AddDbContext<DatabaseContext>();
 
