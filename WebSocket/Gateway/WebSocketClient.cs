@@ -33,16 +33,17 @@ public class WebSocketClient : IWebSocketClient
 
     public async Task StartReceivingAsync()
     {
-        var buffer = new byte[1024];
 
         var currentLimits = await terrariumService.GetTerrariumLimitsAsync();
 
         await SendConfigurationAsync(currentLimits);
-        
+
         while (_socket.State == WebSocketState.Open)
         {
-            var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            var buffer = new byte[4096];
             
+            var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
             if (result.MessageType == WebSocketMessageType.Close)
             {
                 await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
@@ -105,7 +106,7 @@ public class WebSocketClient : IWebSocketClient
         var terrariumLimitsInHexa = dataConvertor.ConvertTemperatureLimitsToHex(terrariumLimits);
 
         Console.WriteLine("Converted data to hex: " + terrariumLimitsInHexa);
-        
+
         var jsonObject = new JObject(
             new JProperty("cmd", "tx"),
             new JProperty("EUI", "0004A30B00E7E212"),
@@ -113,7 +114,7 @@ public class WebSocketClient : IWebSocketClient
             new JProperty("confirmed", false),
             new JProperty("data", terrariumLimitsInHexa)
         );
-        
+
         var buffer = Encoding.UTF8.GetBytes(jsonObject.ToString());
 
         await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
