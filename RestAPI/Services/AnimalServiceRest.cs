@@ -17,4 +17,9 @@ public class AnimalServiceRest : IAnimalServiceRest
         await animalDao.CreateAnimalAsync(animal);
         return animal;
     }
+
+    public async Task<ICollection<Animal>> GetAllAnimalsAsync()
+    {
+        return await animalDao.GetAllAnimalsAsync();
+    }
 }

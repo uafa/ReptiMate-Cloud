@@ -32,4 +32,19 @@ public class AnimalsController : ControllerBase
         }
     }
 
+    [HttpGet]
+    public async Task<ActionResult<ICollection<Animal>>> GetAllAnimalsAsync()
+    {
+        try
+        {
+            var animals = await animalServiceRest.GetAllAnimalsAsync();
+            return Ok(animals);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }
