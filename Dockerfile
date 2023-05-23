@@ -38,11 +38,7 @@ RUN dotnet publish "WebSocket.csproj" -c Release -o /app/publish/WebSocket /p:Us
 # Create the final image and copy published outputs
 FROM base AS final
 WORKDIR /app
-COPY --from=restapi-publish /app/publish/RestAPI .
 COPY --from=websocket-publish /app/publish/WebSocket .
 
-# Set the entry point and command for RestAPI
-ENTRYPOINT ["dotnet", "RestAPI.dll"]
-
-# Start the WebSocket project in the background
-CMD ["sh", "-c", "cd /app/publish/WebSocket && dotnet WebSocket.dll"]
+# Set the entry point and command for WebSocket
+ENTRYPOINT ["dotnet", "WebSocket.dll"]
