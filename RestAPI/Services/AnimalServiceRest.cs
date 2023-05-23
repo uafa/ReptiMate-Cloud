@@ -17,4 +17,9 @@ public class AnimalServiceRest : IAnimalServiceRest
         await animalDao.CreateAnimalAsync(animal);
         return animal;
     }
+
+    public async Task DeleteAnimalAsync(string id)
+    {
+        await animalDao.DeleteAnimalAsync(id);
+    }
 }
