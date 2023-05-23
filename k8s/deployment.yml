@@ -17,3 +17,4 @@ spec:
           image: eu.gcr.io/sep4-cloud-386107/reptimate:latest
           ports:
             - containerPort: 80
+            - containerPort: 8080
