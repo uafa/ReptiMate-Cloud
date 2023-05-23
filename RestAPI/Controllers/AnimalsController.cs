@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using ReptiMate_Cloud.Services;
@@ -32,6 +32,21 @@ public class AnimalsController : ControllerBase
         }
     }
 
+    [HttpGet]
+    public async Task<ActionResult<ICollection<Animal>>> GetAllAnimalsAsync()
+    {
+        try
+        {
+            var animals = await animalServiceRest.GetAllAnimalsAsync();
+            return Ok(animals);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+     }
+     
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteAnimalAsync([FromRoute] string id)
     {

@@ -1,4 +1,5 @@
-﻿using Model;
+using Microsoft.EntityFrameworkCore;
+using Model;
 using Repository;
 
 namespace RestDAOs;
@@ -18,6 +19,16 @@ public class RestAnimalDAO : IRestAnimalDAO
         await context.SaveChangesAsync();
     }
 
+    public async Task<ICollection<Animal>> GetAllAnimalsAsync()
+    {
+        ICollection<Animal> animals = await context.Animals.ToListAsync();
+
+        if (animals == null)
+            throw new Exception("Animals not found");
+
+        return animals;
+    }
+    
     public async Task DeleteAnimalAsync(string id)
     {
         Animal? existing = await context.Animals.FindAsync(Guid.Parse(id));
