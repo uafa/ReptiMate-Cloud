@@ -32,4 +32,19 @@ public class AnimalsController : ControllerBase
         }
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteAnimalAsync([FromRoute] string id)
+    {
+        try
+        {
+            await animalServiceRest.DeleteAnimalAsync(id);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }

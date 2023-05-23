@@ -17,4 +17,15 @@ public class RestAnimalDAO : IRestAnimalDAO
         await context.Animals.AddAsync(animal);
         await context.SaveChangesAsync();
     }
+
+    public async Task DeleteAnimalAsync(string id)
+    {
+        Animal? existing = await context.Animals.FindAsync(Guid.Parse(id));
+
+        if (existing == null)
+            throw new Exception("Animal not found");
+
+        context.Animals.Remove(existing);
+        await context.SaveChangesAsync();
+    }
 }
