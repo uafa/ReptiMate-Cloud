@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Repository;
 
@@ -27,5 +27,16 @@ public class RestAnimalDAO : IRestAnimalDAO
             throw new Exception("Animals not found");
 
         return animals;
+    }
+    
+    public async Task DeleteAnimalAsync(string id)
+    {
+        Animal? existing = await context.Animals.FindAsync(Guid.Parse(id));
+
+        if (existing == null)
+            throw new Exception("Animal not found");
+
+        context.Animals.Remove(existing);
+        await context.SaveChangesAsync();
     }
 }

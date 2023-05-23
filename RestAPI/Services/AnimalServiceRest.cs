@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Model;
 using RestDAOs;
 
@@ -21,5 +21,10 @@ public class AnimalServiceRest : IAnimalServiceRest
     public async Task<ICollection<Animal>> GetAllAnimalsAsync()
     {
         return await animalDao.GetAllAnimalsAsync();
+    }
+    
+    public async Task DeleteAnimalAsync(string id)
+    {
+        await animalDao.DeleteAnimalAsync(id);
     }
 }
