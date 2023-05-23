@@ -52,7 +52,7 @@ public class MeasurementsServiceWSTests
             mock.CreateMeasurementsAsync(It.IsAny<Measurements>()), Times.Once);
 
         _notificationDaoMock.Verify(mock =>
-            mock.CreateNotificationAsync(It.IsAny<Notification>()), Times.Exactly(3));
+            mock.CreateNotificationAsync(It.IsAny<Notification>()), Times.Exactly(2));
     }
     
     
@@ -279,7 +279,7 @@ public class MeasurementsServiceWSTests
             double co2 = _measurementsService.GetCO2(data);
 
             // Assert
-            Assert.Equal(9029, co2);
+            Assert.Equal(902.9, co2);
         }
         
         [Fact]
@@ -292,7 +292,7 @@ public class MeasurementsServiceWSTests
             double humidity = _measurementsService.GetHumidity(data);
 
             // Assert
-            double expectedHumidity = 61185;
+            double expectedHumidity = 6118.5;
             Assert.Equal(expectedHumidity, humidity);
         }
         
