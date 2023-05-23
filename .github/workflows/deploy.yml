@@ -37,7 +37,7 @@ jobs:
       - name: Build and push RestAPI Docker image
         run: |
           gcloud auth configure-docker eu.gcr.io
-          docker build -t eu.gcr.io/sep4-cloud-386107/restapi -f Rest.WebSocket .
+          docker build -t eu.gcr.io/sep4-cloud-386107/restapi -f Rest.Dockerfile .
           docker push eu.gcr.io/sep4-cloud-386107/restapi
 
       - name: Configure kubectl
