@@ -21,23 +21,32 @@ jobs:
       - name: Install gke-gcloud-auth-plugin
         run: |
           gcloud components install gke-gcloud-auth-plugin
-
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build and push Docker image
+      - name: Build and push WebSocket Docker image
         run: |
           gcloud auth configure-docker eu.gcr.io
-          docker build -t eu.gcr.io/sep4-cloud-386107/reptimate .
-          docker push eu.gcr.io/sep4-cloud-386107/reptimate
+          docker build -t eu.gcr.io/sep4-cloud-386107/websocket -f WebSocket.Dockerfile .
+          docker push eu.gcr.io/sep4-cloud-386107/websocket
+
+      - name: Build and push RestAPI Docker image
+        run: |
+          gcloud auth configure-docker eu.gcr.io
+          docker build -t eu.gcr.io/sep4-cloud-386107/restapi -f Rest.WebSocket .
+          docker push eu.gcr.io/sep4-cloud-386107/restapi
 
       - name: Configure kubectl
         run: |
           gcloud container clusters get-credentials reptimate-cluster --region europe-west1
 
-      - name: Deploy to Kubernetes cluster
+      - name: Update Kubernetes deployment for WebSocket
         run: |
-          kubectl apply -f ./k8s/deployment.yml
+          kubectl set image deployment/reptimate-deployment websocket-container=eu.gcr.io/sep4-cloud-386107/websocket:latest
+
+      - name: Update Kubernetes deployment for RestAPI
+        run: |
+          kubectl set image deployment/reptimate-deployment restapi-container=eu.gcr.io/sep4-cloud-386107/restapi:latest
