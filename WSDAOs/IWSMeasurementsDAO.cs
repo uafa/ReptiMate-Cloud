@@ -4,5 +4,5 @@ namespace WSDAOs;
 
 public interface IWSMeasurementsDAO
 {
-    public Task CreateMeasurementsAsync(Measurements measurements);
+    public Task ReceiveMeasurementsAsync(Measurements measurements);
 }

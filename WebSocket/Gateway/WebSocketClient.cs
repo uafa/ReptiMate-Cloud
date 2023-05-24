@@ -61,7 +61,7 @@ public class WebSocketClient : IWebSocketClient
                 {
                     Console.WriteLine($" WebSocketClient: Received data: ");
                     var convertedData = dataConvertor.GetData(data);
-                    await measurementsService.SendMeasurementsAsync(convertedData);
+                    await measurementsService.ReceiveMeasurementsAsync(convertedData);
                 }
             }
 

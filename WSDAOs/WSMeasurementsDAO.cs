@@ -12,7 +12,7 @@ public class WSMeasurementsDAO : IWSMeasurementsDAO
         _context = context;
     }
     
-    public async Task CreateMeasurementsAsync(Measurements measurements)
+    public async Task ReceiveMeasurementsAsync(Measurements measurements)
     {
         await _context.Measurements!.AddAsync(measurements);
         await _context.SaveChangesAsync();

@@ -15,7 +15,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         this.boundariesDao = boundariesDao;
     }
 
-    public async Task SendMeasurementsAsync(string data)
+    public async Task ReceiveMeasurementsAsync(string data)
     {
         var measurements = new Measurements();
 
@@ -26,7 +26,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         measurements.Co2 = GetCO2(data);
         measurements.Humidity = GetHumidity(data);
 
-        await measurementsDao.CreateMeasurementsAsync(measurements);
+        await measurementsDao.ReceiveMeasurementsAsync(measurements);
 
         var boundaries = await boundariesDao.GetBoundariesAsync();
 
