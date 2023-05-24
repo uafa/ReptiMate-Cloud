@@ -45,11 +45,11 @@ public class MeasurementsServiceWSTests
             .ReturnsAsync(boundaries);
 
         // Act
-        await _measurementsService.SendMeasurementsAsync(data);
+        await _measurementsService.ReceiveMeasurementsAsync(data);
 
         // Assert
         _measurementsDaoMock.Verify(mock =>
-            mock.CreateMeasurementsAsync(It.IsAny<Measurements>()), Times.Once);
+            mock.ReceiveMeasurementsAsync(It.IsAny<Measurements>()), Times.Once);
 
         _notificationDaoMock.Verify(mock =>
             mock.CreateNotificationAsync(It.IsAny<Notification>()), Times.Exactly(2));
@@ -75,7 +75,7 @@ public class MeasurementsServiceWSTests
             .ReturnsAsync(boundaries);
 
         // Act
-        await _measurementsService.SendMeasurementsAsync(data);
+        await _measurementsService.ReceiveMeasurementsAsync(data);
 
         // Assert
         _notificationDaoMock.Verify(mock =>
@@ -102,7 +102,7 @@ public class MeasurementsServiceWSTests
             .ReturnsAsync(boundaries);
 
         // Act
-        await _measurementsService.SendMeasurementsAsync(data);
+        await _measurementsService.ReceiveMeasurementsAsync(data);
 
         // Assert
         _notificationDaoMock.Verify(mock =>
@@ -129,7 +129,7 @@ public class MeasurementsServiceWSTests
             .ReturnsAsync(boundaries);
 
         // Act
-        await _measurementsService.SendMeasurementsAsync(data);
+        await _measurementsService.ReceiveMeasurementsAsync(data);
 
         // Assert
         _notificationDaoMock.Verify(mock =>

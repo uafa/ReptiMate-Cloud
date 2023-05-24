@@ -2,5 +2,5 @@
 
 public interface IMeasurementsServiceWS
 {
-    public Task SendMeasurementsAsync(string data);
+    public Task ReceiveMeasurementsAsync(string data);
 }
