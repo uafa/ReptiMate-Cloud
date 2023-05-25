@@ -15,9 +15,11 @@ spec:
       containers:
         - name: websocket-container
           image: eu.gcr.io/sep4-cloud-386107/websocket:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
         - name: restapi-container
           image: eu.gcr.io/sep4-cloud-386107/restapi:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
