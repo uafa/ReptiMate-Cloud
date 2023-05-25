@@ -65,7 +65,7 @@ public class MeasurementsServiceWS : IMeasurementsServiceWS
         //remember, this is 10x
         int co2Dec = int.Parse(co2Hexa, System.Globalization.NumberStyles.HexNumber);
 
-        return co2Dec / 10D;
+        return co2Dec;
     }
 
 
