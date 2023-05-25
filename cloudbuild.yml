@@ -7,8 +7,7 @@
         gcloud auth configure-docker eu.gcr.io
         docker build -t eu.gcr.io/sep4-cloud-386107/websocket -f WebSocket.Dockerfile .
         docker build -t eu.gcr.io/sep4-cloud-386107/restapi -f Rest.Dockerfile .
-        echo "${{ secrets.GCP_SA2_KEY }}" > /root/key.json
-        gcloud auth activate-service-account --key-file=/root/key.json
+        gcloud auth activate-service-account --key-file=/home/uafa_hammoun/sep4-cloud-386107-4858690415f9.json
         gcloud --quiet auth configure-docker
 
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -16,8 +15,7 @@
     args:
       - '-c'
       - |
-        echo "${{ secrets.GCP_SA2_KEY }}" > /root/key.json
-        gcloud auth activate-service-account --key-file=/root/key.json
+        gcloud auth activate-service-account --key-file=/home/uafa_hammoun/sep4-cloud-386107-4858690415f9.json
         gcloud --quiet auth configure-docker
         gcloud container clusters get-credentials reptimate-cluster --region europe-west1
         kubectl apply -f ./k8s/deployment.yml
