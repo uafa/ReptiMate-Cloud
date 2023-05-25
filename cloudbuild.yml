@@ -1,20 +1,23 @@
 ﻿steps:
-  - name: 'eu.gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
-      - 'build'
-      - '--tag=eu.gcr.io/sep4-cloud-386107/websocket'
-      - '-f'
-      - 'WebSocket.Dockerfile'
-      - '.'
+      - '-c'
+      - |
+        gcloud auth configure-docker eu.gcr.io
+        docker build -t eu.gcr.io/sep4-cloud-386107/websocket -f WebSocket.Dockerfile .
+        docker build -t eu.gcr.io/sep4-cloud-386107/restapi -f Rest.Dockerfile .
+        echo "${{ secrets.GCP_SA2_KEY }}" > /root/key.json
+        gcloud auth activate-service-account --key-file=/root/key.json
+        gcloud --quiet auth configure-docker
 
-  - name: 'eu.gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
-      - 'build'
-      - '--tag=eu.gcr.io/sep4-cloud-386107/restapi'
-      - '-f'
-      - 'Rest.Dockerfile'
-      - '.'
-
-images:
-  - 'eu.gcr.io/sep4-cloud-386107/websocket'
-  - 'eu.gcr.io/sep4-cloud-386107/restapi'
+      - '-c'
+      - |
+        echo "${{ secrets.GCP_SA2_KEY }}" > /root/key.json
+        gcloud auth activate-service-account --key-file=/root/key.json
+        gcloud --quiet auth configure-docker
+        gcloud container clusters get-credentials reptimate-cluster --region europe-west1
+        kubectl apply -f ./k8s/deployment.yml
