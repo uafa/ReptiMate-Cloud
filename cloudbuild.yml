@@ -19,15 +19,17 @@
       - 'CLOUDSDK_CONTAINER_CLUSTER=reptimate-cluster'
 
   # Save Kubernetes configs
-  - name: 'gcr.io/cloud-builders/gke-deploy'
-    args: ['save', '--cluster=reptimate-cluster', '--region=europe-west1', '--project=sep4-cloud-386107']
-    dir: '/workspace'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['container', 'clusters', 'get-credentials', 'reptimate-cluster', '--region', 'europe-west1']
+    env:
+      - 'PROJECT_ID=sep4-cloud-386107'
 
   # Apply deployment
-  - name: 'gcr.io/cloud-builders/gke-deploy'
-    args: ['apply', '--filename=k8s/deployment.yml', '--cluster=reptimate-cluster', '--region=europe-west1', '--project=sep4-cloud-386107']
-    dir: '/workspace'
-
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/deployment.yml']
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=europe-west1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=reptimate-cluster'
 images:
   - 'eu.gcr.io/sep4-cloud-386107/websocket:latest'
   - 'eu.gcr.io/sep4-cloud-386107/restapi:latest'
