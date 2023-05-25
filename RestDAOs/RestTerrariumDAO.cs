@@ -62,18 +62,11 @@ public class RestTerrariumDAO : IRestTerrariumDAO
         return boundaries;
     }
 
-    public async Task CreateTerrariumAsync(Terrarium terrarium)
-    {
-        await context.Terrarium.AddAsync(terrarium);
-        await context.SaveChangesAsync();
-    }
-
     public async Task<Terrarium> GetTerrariumAsync()
     {
         Terrarium? terrarium = await context.Terrarium
             .Include(t => t.terrariumLimits)
             .Include(t => t.terrariumBoundaries)
-            .Include(t => t.measurements)
             .FirstOrDefaultAsync();
 
         if (terrarium == null)
