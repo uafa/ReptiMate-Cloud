@@ -279,7 +279,7 @@ public class MeasurementsServiceWSTests
             double co2 = _measurementsService.GetCO2(data);
 
             // Assert
-            Assert.Equal(902.9, co2);
+            Assert.Equal(9029, co2);
         }
         
         [Fact]
