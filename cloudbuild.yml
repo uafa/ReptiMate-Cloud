@@ -1,0 +1,20 @@
+﻿steps:
+  - name: 'eu.gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--tag=eu.gcr.io/sep4-cloud-386107/websocket'
+      - '-f'
+      - 'WebSocket.Dockerfile'
+      - '.'
+
+  - name: 'eu.gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--tag=eu.gcr.io/sep4-cloud-386107/restapi'
+      - '-f'
+      - 'Rest.Dockerfile'
+      - '.'
+
+images:
+  - 'eu.gcr.io/sep4-cloud-386107/websocket'
+  - 'eu.gcr.io/sep4-cloud-386107/restapi'
