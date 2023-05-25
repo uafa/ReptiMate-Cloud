@@ -7,7 +7,7 @@
 
   # Build and push RestAPI Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'eu.gcr.io/sep4-cloud-386107/restapi:latest', '-f', 'RestAPI.Dockerfile', '.']
+    args: ['build', '-t', 'eu.gcr.io/sep4-cloud-386107/restapi:latest', '-f', 'Rest.Dockerfile', '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'eu.gcr.io/sep4-cloud-386107/restapi:latest']
 
