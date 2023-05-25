@@ -37,8 +37,4 @@
         </Content>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ServicesTests\" />
-    </ItemGroup>
-
 </Project>
