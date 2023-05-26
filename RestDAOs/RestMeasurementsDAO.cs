@@ -36,7 +36,7 @@ public class RestMeasurementsDAO : IRestMeasurementsDAO
 
         var measurements = await context.Measurements.ToListAsync();
         var specifiedMeasurements = measurements
-            .Where(m => m.DateTime.Ticks >= dateFrom.Ticks && m.DateTime.Ticks <= dateTo.Ticks)
+            .Where(m => m.DateTime.Ticks >= dateFrom.Ticks && m.DateTime.Ticks <= dateTo.Ticks).OrderBy(m => m.DateTime)
             .ToList();
         
 
