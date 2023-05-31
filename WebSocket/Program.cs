@@ -30,7 +30,6 @@ class Program
             return;
         }
 
-        // url for testing ws://localhost:8080/
         var client = new WebSocketClient("wss://iotnet.teracom.dk/app?token=vnoUeQAAABFpb3RuZXQudGVyYWNvbS5kayL9sv9it8LFL5jggp-rve4=",
             serviceProvider.GetRequiredService<IMeasurementsServiceWS>(),
             serviceProvider.GetRequiredService<ITerrariumServiceWS>());
